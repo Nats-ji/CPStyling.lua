@@ -1,7 +1,8 @@
 registerForEvent("onInit", function()
- 	CPS = require "plugins.cyber_engine_tweaks.mods.test.CPStyle"
+ 	CPS = require "plugins.cyber_engine_tweaks.mods.demo.CPStyling"
 	print("CPStyling.lua loaded")
  	theme = CPS.theme
+  color = CPS.color
 	print("Theme Loaded")
 	draw = true
 	wWidth, wHeight = GetDisplayResolution()
@@ -22,6 +23,7 @@ registerForEvent("onInit", function()
 		{name = "My Checkbox5", value = false},
 		{name = "My Checkbox6", value = false}
 	}
+  col = { 0.58, 0.08, 0.81, 1.00 }
 	cpcb_value = { false, true, false, false, true }
 	cpcb_pressed = {}
 	print("Initiated")
@@ -41,7 +43,6 @@ registerForEvent("onUpdate", function()
 			print(tostring(cpcb_value[i])..i)
 		end
 	end
-
 end)
 
 registerForEvent("onDraw", function()
@@ -50,7 +51,7 @@ registerForEvent("onDraw", function()
 		ImGui.Begin("CPStyling.lua Demo", true, ImGuiWindowFlags.MenuBar | ImGuiWindowFlags.NoResize)
 		ImGui.SetWindowFontScale(1.0)
 		ImGui.SetWindowPos(wWidth/2-250, wHeight/2-400, ImGuiCond.FirstUseEver)
-		ImGui.SetWindowSize(500, 800)
+		ImGui.SetWindowSize(505, 800)
 
 -- MenuBar
 		if ImGui.BeginMenuBar() then
@@ -93,29 +94,28 @@ registerForEvent("onDraw", function()
 				ImGui.Separator()
 				ImGui.Spacing()
 -- CPS Button
-				ImGui.Text("ImGui Button:") ImGui.SameLine(176) ImGui.Text("CPS Button:")
-				btn1 = ImGui.Button("Set", 160, 30) ImGui.SameLine() cpbtn1 = CPS.CPButton("Reset", 160, 30)
-
-				ImGui.Button("I'm a stretchy button", -1, 0)
+				ImGui.Text("ImGui Button:") ImGui.SameLine(256) ImGui.Text("CPS Button:")
+				btn1 = ImGui.Button("Set", 240, 30) ImGui.SameLine() cpbtn1 = CPS.CPButton("Reset", 240, 30)
 
 -- CPS Toggle
 				ImGui.Dummy(0,8)
 				ImGui.Text("CPS Toggles:")
 				for i in pairs(cpcb_value) do
 					ImGui.PushID(i)
-					cpcb_value[i], cpcb_pressed[i] = CPS.CPToggle("CP Checkbox"..i.." value: "..tostring(cpcb_value[i]), "OFF", "ON", cpcb_value[i], 200, ImGui.GetFontSize()*1.3)
+					cpcb_value[i], cpcb_pressed[i] = CPS.CPToggle("CPToggles"..i.." value: "..tostring(cpcb_value[i]), "OFF", "ON", cpcb_value[i], 240, 0)
 					ImGui.PopID()
+          ImGui.Spacing()
 				end
 
 -- CPS ToolTips
 				ImGui.Dummy(0,8)
 				ImGui.Text("CPS ToolTips:")
-				ImGui.Button("Custom ToolTip", 160, 30)
-				tab3hov = ImGui.IsItemHovered()
+				ImGui.Button("Custom ToolTip", 240, 30)
+				tab1hov = ImGui.IsItemHovered()
 				ImGui.SameLine()
-				ImGui.Button("Custom ToolTip2", 160, 30)
-				tab3hov2 = ImGui.IsItemHovered()
-				if tab3hov then
+				ImGui.Button("Custom ToolTip2", 240, 30)
+				tab1hov2 = ImGui.IsItemHovered()
+				if tab1hov then
 					CPS.CPToolTip1Begin(260, 220)
 					ImGui.TextColored(0.79, 0.40, 0.29, 1, "SIDE JOB")
 					ImGui.Spacing()
@@ -138,7 +138,7 @@ registerForEvent("onDraw", function()
 					ImGui.TextColored(0.36, 0.96, 1, 1, "ZOOM IN")
 					CPS.CPToolTip1End()
 				end
-				if tab3hov2 then
+				if tab1hov2 then
 					CPS.CPToolTip2Begin(340, 168)
 					ImGui.TextColored(0.33, 0.86, 0.89, 1, "ASSAULT IN PROGRESS")
 					ImGui.Spacing()
@@ -152,7 +152,9 @@ registerForEvent("onDraw", function()
 					ImGui.BeginChild("NCPDlogoUP", 100, 50)
 					ImGui.SetWindowFontScale(1.5)
 					CPS.colorBegin("Text", "5ef5ff")
+          CPS.styleBegin("FramePadding", 0, 0)
 					CPS.CPRect("NCPD", 100, 35, {"1d3941",0.6}, "3e8c94", 2, 2)
+          CPS.styleEnd()
 					ImGui.SetCursorPosY(ImGui.GetCursorPosY()-8)
 					CPS.CPRect("##NCPD2", 100, 15, {"3e8c94",0.9}, nil , 0, 50)
 					ImGui.EndChild()
@@ -172,7 +174,7 @@ registerForEvent("onDraw", function()
 -- CPRect()
 				ImGui.Dummy(0,8)
 				ImGui.Text("CPRect():")
-				CPS.CPRect("##Recdemo1", 50, 50 , { 0, 1, 0 , 1}, { 1, 0,0 ,1}, 2, 0)
+				CPS.CPRect("##Recdemo1", 50, 50 , color.blue, { 1, 0, 0 ,1 }, 2, 0)
 				ImGui.SameLine()
 				CPS.CPRect("##Recdemo2", 50, 30 , { 1, 1, 0 , 1}, nil , 0, 10)
 				ImGui.SameLine()
@@ -184,7 +186,7 @@ registerForEvent("onDraw", function()
 				ImGui.EndTabItem()
 			end
 			if ImGui.BeginTabItem("Default style") then
-				ImGui.PushItemWidth(160)
+				ImGui.PushItemWidth(260)
 				ImGui.InputText("Textbox", "Lorem ipsum dolor", 100, ImGuiInputTextFlags.AutoSelectAll)
 				ImGui.InputTextWithHint("Textbox with hint", "Password...", "", 10, ImGuiInputTextFlags.Password)
 				ImGui.InputFloat("Textbox float", 1.00000, 1, 10, "%.5f", ImGuiInputTextFlags.None)
@@ -202,12 +204,14 @@ registerForEvent("onDraw", function()
 				end
 				ImGui.Checkbox("Checkbox##1", true) ImGui.SameLine() ImGui.Checkbox("Checkbox##2", false)
 				ImGui.Spacing()
+        col, used = ImGui.ColorEdit4("ColorEdit4", col)
+        col, used = ImGui.ColorPicker4("ColorPicker4", col)
 				ImGui.PopItemWidth()
 				ImGui.EndTabItem()
 			end
 			if ImGui.BeginTabItem("setFrameThemeBegin()") then
 				CPS.setFrameThemeBegin()
-				ImGui.PushItemWidth(160)
+				ImGui.PushItemWidth(260)
 				ImGui.InputText("Textbox##2", "Lorem ipsum dolor", 100, ImGuiInputTextFlags.AutoSelectAll)
 				ImGui.InputTextWithHint("Textbox with hint##2", "Password...", "", 10, ImGuiInputTextFlags.Password)
 				ImGui.InputFloat("Textbox float##2", 1.00000, 1, 10, "%.5f", ImGuiInputTextFlags.None)
@@ -224,11 +228,11 @@ registerForEvent("onDraw", function()
 					ImGui.ListBoxFooter()
 				end
 				ImGui.Checkbox("Checkbox##3", true) ImGui.SameLine() ImGui.Checkbox("Checkbox##4", false)
-
 				ImGui.Spacing()
-				CPS.CPRect("##rect1", 10, 200, {1,0,0,1}, nil, 0, 5)
-				CPS.CPRect("##rect2", 200, 10, {1,1,0,1}, nil, 0, 2)
+        col, used = ImGui.ColorEdit4("ColorEdit4", col)
+        col, used = ImGui.ColorPicker4("ColorPicker4", col)
 				ImGui.PopItemWidth()
+
 				CPS.setFrameThemeEnd()
 				ImGui.EndTabItem()
 			end
@@ -237,6 +241,7 @@ registerForEvent("onDraw", function()
 		end
 
 		ImGui.End()
+
 		CPS.setThemeEnd()
 	end
 end)
