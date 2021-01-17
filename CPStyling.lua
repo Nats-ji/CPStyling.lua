@@ -1,99 +1,125 @@
 local CPStyle = {}
 
 CPStyle.theme = {
-  Text                                        =           { "ff6053" , 1.0 },
-  TextDisabled                                =           { "7a6366" , 1.0 },
-  WindowBg                                    =           { "0f0a0f" , 0.9 },
-  ChildBg                                     =           { "000000" , 0.0 },
-  PopupBg                                     =           { "0f0a0f" , 0.9 },
-  Border                                      =           { "4d1214" , 1.0 },
-  BorderShadow                                =           { "000000" , 0.0 },
-  FrameBg                                     =           { "802129" , 0.5 },
-  FrameBgHovered                              =           { "521d1e" , 0.5 },
-  FrameBgActive                               =           { "802129" , 0.5 },
-  -- FrameBgDisabled                          =           { "7a6366" , 1.0 },
-  -- FrameBgHoveredDisabled                   =           { "7a6366" , 1.0 },
-  -- FrameBgActiveDisabled                    =           { "7a6366" , 1.0 },
-  TitleBg                                     =           { "0f0a0f" , 0.9 },
-  TitleBgActive                               =           { "0f0a0f" , 0.9 },
-  TitleBgCollapsed                            =           { "0f0a0f" , 0.9 },
-  MenuBarBg                                   =           { "000000" , 0.0 },
-  ScrollbarBg                                 =           { "3a1317" , 1.0 },
-  ScrollbarGrab                               =           { "f34c47" , 1.0 },
-  ScrollbarGrabHovered                        =           { "f34c47" , 1.0 },
-  ScrollbarGrabActive                         =           { "f34c47" , 1.0 },
-  CheckMark                                   =           { "ff7066" , 1.0 },
-  -- CheckMarkTrueDisabled                    =           { "57383d" , 1.0 },
-  -- CheckMarkFalseDisabled                   =           { "7a6366" , 1.0 },
-  SliderGrab                                  =           { "a23735" , 1.0 },
-  SliderGrabActive                            =           { "a23735" , 1.0 },
-  Button                                      =           { "912b29" , 1.0 },
-  ButtonHovered                               =           { "732124" , 1.0 },
-  ButtonActive                                =           { "912b29" , 1.0 },
-  Header                                      =           { "141426" , 1.0 },
-  HeaderHovered                               =           { "38a3b0" , 0.3 },
-  HeaderActive                                =           { "38a3b0" , 0.5 },
-  Separator                                   =           { "431617" , 1.0 },
-  SeparatorHovered                            =           { "431617" , 1.0 },
-  SeparatorActive                             =           { "431617" , 1.0 },
-  ResizeGrip                                  =           { "000000" , 0.0 },
-  ResizeGripHovered                           =           { "732124" , 1.0 },
-  ResizeGripActive                            =           { "912b29" , 1.0 },
-  Tab                                         =           { "912b29" , 1.0 },
-  TabHovered                                  =           { "732124" , 1.0 },
-  TabActive                                   =           { "912b29" , 1.0 },
-  TabUnfocused                                =           { "732322" , 1.0 },
-  TabUnfocusedActive                          =           { "932d2a" , 1.0 },
-  -- PlotLines                                =           { "000000" , 0.0 },
-  -- PlotLinesHovered                         =           { "000000" , 0.0 },
-  -- PlotHistogram                            =           { "000000" , 0.0 },
-  -- PlotHistogramHovered                     =           { "000000" , 0.0 },
-  TextSelectedBg                              =           { "10101e" , 1.0 },
-  -- DragDropTarget                           =           { "000000" , 0.0 },
-  -- NavHighlight                             =           { "000000" , 0.0 },
-  -- NavWindowingHighlight                    =           { "000000" , 0.0 },
-  -- NavWindowingDimBg                        =           { "000000" , 0.0 },
-  -- ModalWindowDimBg                         =           { "000000" , 0.0 },
-  -- ModalWindowDarkening                     =           { "000000" , 0.0 },
-  CPButton                                    =           { "10101e" , 1.0 },
-  CPButtonHovered                             =           { "6e2220" , 1.0 },
-  CPButtonActive                              =           { "912a2a" , 1.0 },
-  CPButtonText                                =           { "57f1fa" , 1.0 },
-  CPButtonBorder                              =           { "661517" , 1.0 },
-  CPButtonBorderHovered                       =           { "57f1fa" , 1.0 },
-  CPToggleOn                                  =           { "5ef6ff" , 1.0 },
-  CPToggleOnHovered                           =           { "4ac4cc" , 1.0 },
-  CPToggleOnText                              =           { "000000" , 1.0 },
-  CPToggleOnTextHovered                       =           { "000000" , 1.0 },
-  CPToggleOnBorder                            =           { "429c94" , 1.0 },
-  CPToggleOnBorderHovered                     =           { "43a8a7" , 1.0 },
-  CPToggleOnDisabled                          =           { "081e1f" , 1.0 },
-  CPToggleOnDisabledHovered                   =           { "0c282a" , 1.0 },
-  CPToggleOnDisabledText                      =           { "153a3f" , 1.0 },
-  CPToggleOnDisabledTextHovered               =           { "17494c" , 1.0 },
-  CPToggleOnDisabledBorder                    =           { "0f2527" , 1.0 },
-  CPToggleOnDisabledBorderHovered             =           { "173e40" , 1.0 },
-  CPToggleOff                                 =           { "932d2a" , 1.0 },
-  CPToggleOffHovered                          =           { "732322" , 1.0 },
-  CPToggleOffText                             =           { "ff7168" , 1.0 },
-  CPToggleOffTextHovered                      =           { "ff5c54" , 1.0 },
-  CPToggleOffBorder                           =           { "ea4b42" , 1.0 },
-  CPToggleOffBorderHovered                    =           { "c23a35" , 1.0 },
-  CPToggleOffDisabled                         =           { "180b11" , 1.0 },
-  CPToggleOffDisabledHovered                  =           { "291012" , 1.0 },
-  CPToggleOffDisabledText                     =           { "51181a" , 1.0 },
-  CPToggleOffDisabledTextHovered              =           { "5b1c1c" , 1.0 },
-  CPToggleOffDisabledBorder                   =           { "311416" , 1.0 },
-  CPToggleOffDisabledBorderHovered            =           { "4d171a" , 1.0 },
-  CPFrameBg                                   =           { "10101e" , 1.0 },
-  CPFrameBgHovered                            =           { "4f1b1d" , 1.0 },
-  CPFrameBgActive                             =           { "913131" , 1.0 },
-  CPSliderGrab                                =           { "a43635" , 1.0 },
-  CPSliderGrabActive                          =           { "a43635" , 1.0 },
-  CPFrameBorder                               =           { "661517" , 1.0 },
-  CPTextSelectedBg                            =           { "732322" , 1.0 },
-  Hidden                                      =           { "000000" , 0.0 }
+  Text                                        =           { 1.00, 0.38, 0.33, 1.00 },
+  TextDisabled                                =           { 0.48, 0.39, 0.40, 1.00 },
+  WindowBg                                    =           { 0.06, 0.04, 0.06, 0.90 },
+  ChildBg                                     =           { 0.00, 0.00, 0.00, 0.00 },
+  PopupBg                                     =           { 0.06, 0.04, 0.06, 0.90 },
+  Border                                      =           { 0.30, 0.07, 0.08, 1.00 },
+  BorderShadow                                =           { 0.00, 0.00, 0.00, 0.00 },
+  FrameBg                                     =           { 0.50, 0.13, 0.16, 0.50 },
+  FrameBgHovered                              =           { 0.32, 0.11, 0.12, 0.50 },
+  FrameBgActive                               =           { 0.50, 0.13, 0.16, 0.50 },
+  -- FrameBgDisabled                          =           { 0.48, 0.39, 0.40, 1.00 },
+  -- FrameBgHoveredDisabled                   =           { 0.48, 0.39, 0.40, 1.00 },
+  -- FrameBgActiveDisabled                    =           { 0.48, 0.39, 0.40, 1.00 },
+  TitleBg                                     =           { 0.06, 0.04, 0.06, 0.90 },
+  TitleBgActive                               =           { 0.06, 0.04, 0.06, 0.90 },
+  TitleBgCollapsed                            =           { 0.06, 0.04, 0.06, 0.90 },
+  MenuBarBg                                   =           { 0.00, 0.00, 0.00, 0.00 },
+  ScrollbarBg                                 =           { 0.23, 0.07, 0.09, 1.00 },
+  ScrollbarGrab                               =           { 0.95, 0.30, 0.28, 1.00 },
+  ScrollbarGrabHovered                        =           { 0.95, 0.30, 0.28, 1.00 },
+  ScrollbarGrabActive                         =           { 0.95, 0.30, 0.28, 1.00 },
+  CheckMark                                   =           { 1.00, 0.44, 0.40, 1.00 },
+  -- CheckMarkTrueDisabled                    =           { 0.34, 0.22, 0.24, 1.00 },
+  -- CheckMarkFalseDisabled                   =           { 0.48, 0.39, 0.40, 1.00 },
+  SliderGrab                                  =           { 0.64, 0.22, 0.21, 1.00 },
+  SliderGrabActive                            =           { 0.64, 0.22, 0.21, 1.00 },
+  Button                                      =           { 0.57, 0.17, 0.16, 1.00 },
+  ButtonHovered                               =           { 0.45, 0.13, 0.14, 1.00 },
+  ButtonActive                                =           { 0.57, 0.17, 0.16, 1.00 },
+  Header                                      =           { 0.08, 0.08, 0.15, 1.00 },
+  HeaderHovered                               =           { 0.22, 0.64, 0.69, 0.30 },
+  HeaderActive                                =           { 0.22, 0.64, 0.69, 0.50 },
+  Separator                                   =           { 0.26, 0.09, 0.09, 1.00 },
+  SeparatorHovered                            =           { 0.26, 0.09, 0.09, 1.00 },
+  SeparatorActive                             =           { 0.26, 0.09, 0.09, 1.00 },
+  ResizeGrip                                  =           { 0.00, 0.00, 0.00, 0.00 },
+  ResizeGripHovered                           =           { 0.45, 0.13, 0.14, 1.00 },
+  ResizeGripActive                            =           { 0.57, 0.17, 0.16, 1.00 },
+  Tab                                         =           { 0.57, 0.17, 0.16, 1.00 },
+  TabHovered                                  =           { 0.45, 0.13, 0.14, 1.00 },
+  TabActive                                   =           { 0.57, 0.17, 0.16, 1.00 },
+  TabUnfocused                                =           { 0.45, 0.14, 0.13, 1.00 },
+  TabUnfocusedActive                          =           { 0.58, 0.18, 0.16, 1.00 },
+  -- PlotLines                                =           { 0.00, 0.00, 0.00, 0.00 },
+  -- PlotLinesHovered                         =           { 0.00, 0.00, 0.00, 0.00 },
+  -- PlotHistogram                            =           { 0.00, 0.00, 0.00, 0.00 },
+  -- PlotHistogramHovered                     =           { 0.00, 0.00, 0.00, 0.00 },
+  TextSelectedBg                              =           { 0.06, 0.06, 0.12, 1.00 },
+  -- DragDropTarget                           =           { 0.00, 0.00, 0.00, 0.00 },
+  -- NavHighlight                             =           { 0.00, 0.00, 0.00, 0.00 },
+  -- NavWindowingHighlight                    =           { 0.00, 0.00, 0.00, 0.00 },
+  -- NavWindowingDimBg                        =           { 0.00, 0.00, 0.00, 0.00 },
+  -- ModalWindowDimBg                         =           { 0.00, 0.00, 0.00, 0.00 },
+  -- ModalWindowDarkening                     =           { 0.00, 0.00, 0.00, 0.00 },
+  CPButton                                    =           { 0.06, 0.06, 0.12, 1.00 },
+  CPButtonHovered                             =           { 0.43, 0.13, 0.13, 1.00 },
+  CPButtonActive                              =           { 0.57, 0.16, 0.16, 1.00 },
+  CPButtonText                                =           { 0.34, 0.95, 0.98, 1.00 },
+  CPButtonBorder                              =           { 0.40, 0.08, 0.09, 1.00 },
+  CPButtonBorderHovered                       =           { 0.34, 0.95, 0.98, 1.00 },
+  CPToggleOn                                  =           { 0.37, 0.96, 1.00, 1.00 },
+  CPToggleOnHovered                           =           { 0.29, 0.77, 0.80, 1.00 },
+  CPToggleOnText                              =           { 0.00, 0.00, 0.00, 1.00 },
+  CPToggleOnTextHovered                       =           { 0.00, 0.00, 0.00, 1.00 },
+  CPToggleOnBorder                            =           { 0.29, 0.61, 0.58, 1.00 },
+  CPToggleOnBorderHovered                     =           { 0.26, 0.66, 0.65, 1.00 },
+  CPToggleOnDisabled                          =           { 0.03, 0.12, 0.12, 1.00 },
+  CPToggleOnDisabledHovered                   =           { 0.05, 0.16, 0.16, 1.00 },
+  CPToggleOnDisabledText                      =           { 0.08, 0.23, 0.25, 1.00 },
+  CPToggleOnDisabledTextHovered               =           { 0.09, 0.29, 0.30, 1.00 },
+  CPToggleOnDisabledBorder                    =           { 0.06, 0.15, 0.15, 1.00 },
+  CPToggleOnDisabledBorderHovered             =           { 0.09, 0.24, 0.25, 1.00 },
+  CPToggleOff                                 =           { 0.58, 0.18, 0.16, 1.00 },
+  CPToggleOffHovered                          =           { 0.45, 0.14, 0.13, 1.00 },
+  CPToggleOffText                             =           { 1.00, 0.44, 0.41, 1.00 },
+  CPToggleOffTextHovered                      =           { 1.00, 0.36, 0.33, 1.00 },
+  CPToggleOffBorder                           =           { 0.92, 0.29, 0.26, 1.00 },
+  CPToggleOffBorderHovered                    =           { 0.76, 0.23, 0.21, 1.00 },
+  CPToggleOffDisabled                         =           { 0.09, 0.04, 0.07, 1.00 },
+  CPToggleOffDisabledHovered                  =           { 0.16, 0.06, 0.07, 1.00 },
+  CPToggleOffDisabledText                     =           { 0.32, 0.09, 0.10, 1.00 },
+  CPToggleOffDisabledTextHovered              =           { 0.36, 0.11, 0.11, 1.00 },
+  CPToggleOffDisabledBorder                   =           { 0.19, 0.08, 0.09, 1.00 },
+  CPToggleOffDisabledBorderHovered            =           { 0.30, 0.09, 0.10, 1.00 },
+  CPFrameBg                                   =           { 0.06, 0.06, 0.12, 1.00 },
+  CPFrameBgHovered                            =           { 0.31, 0.11, 0.11, 1.00 },
+  CPFrameBgActive                             =           { 0.57, 0.19, 0.19, 1.00 },
+  CPSliderGrab                                =           { 0.64, 0.21, 0.21, 1.00 },
+  CPSliderGrabActive                          =           { 0.64, 0.21, 0.21, 1.00 },
+  CPFrameBorder                               =           { 0.40, 0.08, 0.09, 1.00 },
+  CPTextSelectedBg                            =           { 0.45, 0.14, 0.13, 1.00 },
+  CPToolTip2Bg                                =           { 0.11, 0.22, 0.25, 0.60 },
+  CPToolTip2Border                            =           { 0.18, 0.42, 0.46, 1.00 },
+  CPToolTip2Separator                         =           { 0.24, 0.55, 0.58, 1.00 },
+  CPToolTip2SideBg                            =           { 0.12, 0.24, 0.27, 1.00 },
+  Hidden                                      =           { 0.00, 0.00, 0.00, 0.00 }
 }
+
+CPStyle.color = {
+  red             =            { 1.00, 0.00, 0.00, 1.00 },
+  cyan            =            { 0.00, 1.00, 1.00, 1.00 },
+  blue            =            { 0.00, 0.00, 1.00, 1.00 },
+  darkBlue        =            { 0.00, 0.00, 0.63, 1.00 },
+  lightBlue       =            { 0.68, 0.85, 0.90, 1.00 },
+  purple          =            { 0.50, 0.00, 0.50, 1.00 },
+  yellow          =            { 1.00, 1.00, 0.00, 1.00 },
+  lime            =            { 0.00, 1.00, 0.00, 1.00 },
+  magenta         =            { 1.00, 0.00, 1.00, 1.00 },
+  white           =            { 1.00, 1.00, 1.00, 1.00 },
+  silver          =            { 0.75, 0.75, 0.75, 1.00 },
+  grey            =            { 0.50, 0.50, 0.50, 1.00 },
+  black           =            { 0.00, 0.00, 0.00, 1.00 },
+  orange          =            { 1.00, 0.65, 0.00, 1.00 },
+  brown           =            { 0.65, 0.16, 0.16, 1.00 },
+  maroon          =            { 0.50, 0.00, 0.00, 1.00 },
+  green           =            { 0.00, 0.50, 0.00, 1.00 },
+  olive           =            { 0.50, 0.50, 0.00, 1.00 }
+}
+
 
 local ImGuiStyleNames = {
   Col = {
@@ -200,9 +226,11 @@ local function hex2rgb(hex)
       return tonumber("0x"..hex:sub(1,2))/255, tonumber("0x"..hex:sub(3,4))/255, tonumber("0x"..hex:sub(5,6))/255
     end
 end
---
+
 function CPStyle.colorBegin(style, color)
-	if type(color) == "string" then
+  if type(color) == "number" then
+    ImGui.PushStyleColor(ToImGuiStyleName(style, "Col"), color)
+	elseif type(color) == "string" then
 		local r, g, b = hex2rgb(color)
 		ImGui.PushStyleColor(ToImGuiStyleName(style, "Col"), r, g, b, 1)
 	elseif type(color) == "table" then
@@ -295,12 +323,12 @@ function CPStyle.setThemeBegin()
 	-- CPStyle.colorBegin("ModalWindowDarkening"           , CPStyle.theme.ModalWindowDarkening)
 	CPStyle.styleBegin("ScrollbarSize"                  , 9)
 end
---
+
 function CPStyle.setThemeEnd()
 	CPStyle.styleEnd(1)
 	CPStyle.colorEnd(39)
 end
---
+
 function CPStyle.setFrameThemeBegin()
 	CPStyle.colorBegin("FrameBg"                        , CPStyle.theme.CPFrameBg)
 	CPStyle.colorBegin("FrameBgHovered"                 , CPStyle.theme.CPFrameBgHovered)
@@ -323,6 +351,7 @@ function CPStyle.CPButton(label, sizex, sizey)
 	local press, hovered
 	ImGui.BeginGroup()
 	CPStyle.styleBegin("FrameBorderSize", 1)
+  CPStyle.styleBegin("FramePadding", 5, 0)
 	CPStyle.colorBegin("Button", CPStyle.theme.CPButton)
 	CPStyle.colorBegin("ButtonHovered", CPStyle.theme.CPButtonHovered)
 	CPStyle.colorBegin("ButtonActive", CPStyle.theme.CPButtonActive)
@@ -347,16 +376,17 @@ function CPStyle.CPButton(label, sizex, sizey)
 		end
 		CPStyle.colorEnd(3)
 	end
-	CPStyle.styleEnd(1)
+	CPStyle.styleEnd(2)
 	ImGui.EndGroup()
 	return press
 end
 
--- -- CPToggle
---
+-- CPToggle
+
 function CPStyle.CPToggle(label, label_off, label_on, value, sizex, sizey)
 	local press_off, press_on, hovered
 	ImGui.BeginGroup()
+  CPStyle.styleBegin("FramePadding", 5, 0)
 	CPStyle.styleBegin("FrameBorderSize", 1)
 	ImGui.BeginGroup()
 	if value then
@@ -365,15 +395,15 @@ function CPStyle.CPToggle(label, label_off, label_on, value, sizex, sizey)
 		CPStyle.colorBegin("ButtonHovered", CPStyle.theme.CPToggleOffDisabledHovered)
 		CPStyle.colorBegin("ButtonActive", CPStyle.theme.CPToggleOffDisabled)
 		CPStyle.colorBegin("Border", CPStyle.theme.CPToggleOffDisabledBorder)
-		press_off = ImGui.Button(label_off.."##cp", sizex/2-2,sizey)
+		press_off = ImGui.Button(label_off.."##cp", sizex/2,sizey)
 		ImGui.PopStyleColor(5)
-		ImGui.SameLine(sizex/2 + 2)
+		ImGui.SameLine(sizex/2)
 		CPStyle.colorBegin("Button", CPStyle.theme.CPToggleOn)
 		CPStyle.colorBegin("Text", CPStyle.theme.CPToggleOnText)
 		CPStyle.colorBegin("ButtonHovered", CPStyle.theme.CPToggleOnHovered)
 		CPStyle.colorBegin("ButtonActive", CPStyle.theme.CPToggleOn)
 		CPStyle.colorBegin("Border", CPStyle.theme.CPToggleOnBorder)
-		press_on = ImGui.Button(label_on.."##cp", sizex/2-2, sizey)
+		press_on = ImGui.Button(label_on.."##cp", sizex/2, sizey)
 		ImGui.PopStyleColor(5)
 
 	else
@@ -382,15 +412,15 @@ function CPStyle.CPToggle(label, label_off, label_on, value, sizex, sizey)
 		CPStyle.colorBegin("ButtonHovered", CPStyle.theme.CPToggleOffHovered)
 		CPStyle.colorBegin("ButtonActive", CPStyle.theme.CPToggleOff)
 		CPStyle.colorBegin("Border", CPStyle.theme.CPToggleOffBorder)
-		press_off = ImGui.Button(label_off.."##cp", sizex/2-2,sizey)
+		press_off = ImGui.Button(label_off.."##cp", sizex/2,sizey)
 		ImGui.PopStyleColor(5)
-		ImGui.SameLine(sizex/2 + 2)
+		ImGui.SameLine(sizex/2)
 		CPStyle.colorBegin("Button", CPStyle.theme.CPToggleOnDisabled)
 		CPStyle.colorBegin("Text", CPStyle.theme.CPToggleOnDisabledText)
 		CPStyle.colorBegin("ButtonHovered", CPStyle.theme.CPToggleOnDisabledHovered)
 		CPStyle.colorBegin("ButtonActive", CPStyle.theme.CPToggleOnDisabled)
 		CPStyle.colorBegin("Border", CPStyle.theme.CPToggleOnDisabledBorder)
-		press_on = ImGui.Button(label_on.."##cp", sizex/2-2, sizey)
+		press_on = ImGui.Button(label_on.."##cp", sizex/2, sizey)
 		ImGui.PopStyleColor(5)
 	end
 
@@ -447,7 +477,7 @@ function CPStyle.CPToggle(label, label_off, label_on, value, sizex, sizey)
 	CPStyle.styleBegin("ButtonTextAlign", 0, 0.5)
 	ImGui.SameLine(sizex)
 	ImGui.Button(label, 0, sizey)
-	CPStyle.styleEnd(2)
+	CPStyle.styleEnd(3)
 	CPStyle.colorEnd(4)
 	ImGui.EndGroup()
 	return value, press
@@ -479,14 +509,14 @@ function CPStyle.CPToolTip2Begin(sizex, sizey)
 	CPStyle.styleBegin("PopupBorderSize", 0)
 	CPStyle.styleBegin("ChildBorderSize", 1)
 	CPStyle.colorBegin("PopupBg", CPStyle.theme.Hidden)
-	CPStyle.colorBegin("ChildBg", {"1d3941", 0.6})
-	CPStyle.colorBegin("Border", "2f6b75")
-	CPStyle.colorBegin("Separator", "3e8c94")
+	CPStyle.colorBegin("ChildBg", CPStyle.theme.CPToolTip2Bg)
+	CPStyle.colorBegin("Border", CPStyle.theme.CPToolTip2Border)
+	CPStyle.colorBegin("Separator", CPStyle.theme.CPToolTip2Separator)
 	ImGui.BeginTooltip()
-	CPStyle.CPRect("##SideRect", 8, sizey, "1e3d45", "2f6b75", 1, 0)
+	CPStyle.CPRect("##SideRect", 8, sizey, CPStyle.theme.CPToolTip2SideBg, CPStyle.theme.CPToolTip2Border, 1, 0)
 	ImGui.SameLine(16)
 	ImGui.BeginGroup()
-	ImGui.BeginChild("ToolTipMain", sizex, sizey, true)
+	ImGui.BeginChild("ToolTip2Main", sizex, sizey, true)
 end
 
 function CPStyle.CPToolTip2End()
