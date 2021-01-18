@@ -19,6 +19,7 @@ Still WIP, will add more widgets. You can also download the demo to play with it
 ### Utilities
 ```lua
 --Setup the style for a new window and it's content.
+CPS.setThemeBegin()
 -- ImGui.Begin("I'm a window")
 -- ImGui.End()
 CPS.setThemeEnd()
