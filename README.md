@@ -11,6 +11,8 @@ color = CPS.color
 ```
 Still WIP, will add more widgets. You can also download the demo to play with it yourself.
 
+![Imgur](https://i.imgur.com/fe3cd4w.png)
+
 ### Utilities
 ```lua
 --Setup the style for a new window and it's content.
@@ -57,6 +59,7 @@ CPS.styleEnd(1)
 
 CPButton:
 
+![Imgur](https://i.imgur.com/4neA19J.gif)
 ```lua
 press = CPS.CPButton(label)
 press = CPS.CPButton(label, sizex, sizey)
@@ -69,6 +72,7 @@ btn2 = CPS.CPButton("Btn2", 50, 30)
 ```
 CPToggle:
 
+![Imgur](https://i.imgur.com/gTwpaLY.gif)
 ```lua
 value, press = CPS.CPToggle(label, label_on, label_off, value, sizex, sizey)
 -- label (string), label_on (string), label_off (string), value (bool), sizex (float), sizey (float)
@@ -79,6 +83,7 @@ value, press = CPS.CPToggle("Toggle godmode", "OFF", "ON", value, 180, 0)
 ```
 CPToolTip:
 
+![Imgur](https://i.imgur.com/i467ORZ.gif)
 ```lua
 CPS.CPToolTip1Begin(sizex, sizey)
 -- ImGui.Text("This is a CPToolTip1")
@@ -90,6 +95,7 @@ CPS.CPToolTip2End()
 ```
 CPRect:
 
+![Imgur](https://i.imgur.com/M5FHWtb.png)
 ```lua
 press = CPS.CPRect(label, sizex, sizey, color, border_color [O], border_size [O], border_rounding [O], textalignx [O], textaligny [O])
 -- lable (string), sizex (float), sizey (float), color (any format), border_color (any format)
