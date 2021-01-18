@@ -1,6 +1,6 @@
 ### What is this
 Made for Cyber Engine Tweaks Mod creation.
-This is a set of color schemes and widgets I made to match the style of Cyberpunk 2077's UI style.
+This is a set of color schemes and widgets I made to match the style of Cyberpunk 2077's UI.
 I also included some useful functions for easier and faster ImGui styling.
 
 ### How to use
