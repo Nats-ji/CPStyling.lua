@@ -195,32 +195,6 @@ local ImGuiStyleNames = {
     { ImGuiStyle = ImGuiCol.ModalWindowDimBg            , ImGuiStyleShort = "ModalWindowDimBg" },
     { ImGuiStyle = ImGuiCol.ModalWindowDarkening        , ImGuiStyleShort = "ModalWindowDarkening" },
     { ImGuiStyle = ImGuiCol.COUNT                       , ImGuiStyleShort = "COUNT" }
-  },
-  Var = {
-    { ImGuiStyle = ImGuiStyleVar.Alpha                  , ImGuiStyleShort = "Alpha" },
-    { ImGuiStyle = ImGuiStyleVar.WindowPadding          , ImGuiStyleShort = "WindowPadding" },
-    { ImGuiStyle = ImGuiStyleVar.WindowRounding         , ImGuiStyleShort = "WindowRounding" },
-    { ImGuiStyle = ImGuiStyleVar.WindowBorderSize       , ImGuiStyleShort = "WindowBorderSize" },
-    { ImGuiStyle = ImGuiStyleVar.WindowMinSize          , ImGuiStyleShort = "WindowMinSize" },
-    { ImGuiStyle = ImGuiStyleVar.WindowTitleAlign       , ImGuiStyleShort = "WindowTitleAlign" },
-    { ImGuiStyle = ImGuiStyleVar.ChildRounding          , ImGuiStyleShort = "ChildRounding" },
-    { ImGuiStyle = ImGuiStyleVar.ChildBorderSize        , ImGuiStyleShort = "ChildBorderSize" },
-    { ImGuiStyle = ImGuiStyleVar.PopupRounding          , ImGuiStyleShort = "PopupRounding" },
-    { ImGuiStyle = ImGuiStyleVar.PopupBorderSize        , ImGuiStyleShort = "PopupBorderSize" },
-    { ImGuiStyle = ImGuiStyleVar.FramePadding           , ImGuiStyleShort = "FramePadding" },
-    { ImGuiStyle = ImGuiStyleVar.FrameRounding          , ImGuiStyleShort = "FrameRounding" },
-    { ImGuiStyle = ImGuiStyleVar.FrameBorderSize        , ImGuiStyleShort = "FrameBorderSize" },
-    { ImGuiStyle = ImGuiStyleVar.ItemSpacing            , ImGuiStyleShort = "ItemSpacing" },
-    { ImGuiStyle = ImGuiStyleVar.ItemInnerSpacing       , ImGuiStyleShort = "ItemInnerSpacing" },
-    { ImGuiStyle = ImGuiStyleVar.IndentSpacing          , ImGuiStyleShort = "IndentSpacing" },
-    { ImGuiStyle = ImGuiStyleVar.ScrollbarSize          , ImGuiStyleShort = "ScrollbarSize" },
-    { ImGuiStyle = ImGuiStyleVar.ScrollbarRounding      , ImGuiStyleShort = "ScrollbarRounding" },
-    { ImGuiStyle = ImGuiStyleVar.GrabMinSize            , ImGuiStyleShort = "GrabMinSize" },
-    { ImGuiStyle = ImGuiStyleVar.GrabRounding           , ImGuiStyleShort = "GrabRounding" },
-    { ImGuiStyle = ImGuiStyleVar.TabRounding            , ImGuiStyleShort = "TabRounding" },
-    { ImGuiStyle = ImGuiStyleVar.SelectableTextAlign    , ImGuiStyleShort = "SelectableTextAlign" },
-    { ImGuiStyle = ImGuiStyleVar.ButtonTextAlign        , ImGuiStyleShort = "ButtonTextAlign" },
-    { ImGuiStyle = ImGuiStyleVar.COUNT                  , ImGuiStyleShort = "COUNT" }
   }
 }
 
@@ -229,12 +203,6 @@ local function ToImGuiStyleName(style, which)
 		for i in pairs(ImGuiStyleNames.Col) do
 			if style == ImGuiStyleNames.Col[i].ImGuiStyleShort then
 				return ImGuiStyleNames.Col[i].ImGuiStyle
-			end
-		end
-	elseif which == "Var" then
-		for i in pairs(ImGuiStyleNames.Var) do
-			if style == ImGuiStyleNames.Var[i].ImGuiStyleShort then
-				return ImGuiStyleNames.Var[i].ImGuiStyle
 			end
 		end
 	end
@@ -274,22 +242,6 @@ function CPStyle.colorEnd(count)
     ImGui.PopStyleColor()
   else
     ImGui.PopStyleColor(count)
-  end
-end
---
-function CPStyle.styleBegin(style, var1, var2)
-	if var2 == nil then
-		ImGui.PushStyleVar(ToImGuiStyleName(style, "Var"), var1)
-	else
-		ImGui.PushStyleVar(ToImGuiStyleName(style, "Var"), var1, var2)
-	end
-end
-
-function CPStyle.styleEnd(count)
-  if count == nil then
-    ImGui.PopStyleVar()
-  else
-    ImGui.PopStyleVar(count)
   end
 end
 
@@ -343,11 +295,9 @@ function CPStyle.setThemeBegin()
 	-- CPStyle.colorBegin("NavWindowingDimBg"              , CPStyle.theme.NavWindowingDimBg)
 	-- CPStyle.colorBegin("ModalWindowDimBg"               , CPStyle.theme.ModalWindowDimBg)
 	-- CPStyle.colorBegin("ModalWindowDarkening"           , CPStyle.theme.ModalWindowDarkening)
-	CPStyle.styleBegin("ScrollbarSize"                  , 9)
 end
 
 function CPStyle.setThemeEnd()
-	CPStyle.styleEnd(1)
 	CPStyle.colorEnd(39)
 end
 
@@ -359,11 +309,9 @@ function CPStyle.setFrameThemeBegin()
 	CPStyle.colorBegin("SliderGrabActive"               , CPStyle.theme.CPSliderGrabActive)
 	CPStyle.colorBegin("Border"                         , CPStyle.theme.CPFrameBorder)
 	CPStyle.colorBegin("TextSelectedBg"                 , CPStyle.theme.CPTextSelectedBg)
-	CPStyle.styleBegin("FrameBorderSize"                , 1)
 end
 
 function CPStyle.setFrameThemeEnd()
-	CPStyle.styleEnd(1)
 	CPStyle.colorEnd(7)
 end
 
@@ -372,8 +320,6 @@ end
 function CPStyle.CPButton(label, sizex, sizey)
 	local press, hovered
 	ImGui.BeginGroup()
-	CPStyle.styleBegin("FrameBorderSize", 1)
-  CPStyle.styleBegin("FramePadding", 5, 0)
 	CPStyle.colorBegin("Button", CPStyle.theme.CPButton)
 	CPStyle.colorBegin("ButtonHovered", CPStyle.theme.CPButtonHovered)
 	CPStyle.colorBegin("ButtonActive", CPStyle.theme.CPButtonActive)
@@ -398,7 +344,6 @@ function CPStyle.CPButton(label, sizex, sizey)
 		end
 		CPStyle.colorEnd(3)
 	end
-	CPStyle.styleEnd(2)
 	ImGui.EndGroup()
 	return press
 end
@@ -408,8 +353,6 @@ end
 function CPStyle.CPToggle(label, label_off, label_on, value, sizex, sizey)
 	local press_off, press_on, hovered
 	ImGui.BeginGroup()
-  CPStyle.styleBegin("FramePadding", 5, 0)
-	CPStyle.styleBegin("FrameBorderSize", 1)
 	ImGui.BeginGroup()
 	if value then
 		CPStyle.colorBegin("Button", CPStyle.theme.CPToggleOffDisabled)
@@ -490,25 +433,18 @@ function CPStyle.CPToggle(label, label_off, label_on, value, sizex, sizey)
 		end
 		ImGui.EndGroup()
 	end
-	CPStyle.styleEnd(1)
 	CPStyle.colorBegin("Button", CPStyle.theme.Hidden)
 	CPStyle.colorBegin("Text", CPStyle.theme.Text)
 	CPStyle.colorBegin("ButtonHovered", CPStyle.theme.Hidden)
 	CPStyle.colorBegin("ButtonActive", CPStyle.theme.Hidden)
-	CPStyle.styleBegin("FrameBorderSize", 0)
-	CPStyle.styleBegin("ButtonTextAlign", 0, 0.5)
 	ImGui.SameLine(sizex)
 	ImGui.Button(label, 0, sizey)
-	CPStyle.styleEnd(3)
 	CPStyle.colorEnd(4)
 	ImGui.EndGroup()
 	return value, press
 end
 
 function CPStyle.CPToolTip1Begin(sizex, sizey)
-	CPStyle.styleBegin("WindowRounding", 0)
-	CPStyle.styleBegin("PopupBorderSize", 0)
-	CPStyle.styleBegin("ChildBorderSize", 1)
 	CPStyle.colorBegin("PopupBg", CPStyle.theme.Hidden)
 	CPStyle.colorBegin("ChildBg", CPStyle.theme.CPFrameBg)
 	ImGui.BeginTooltip()
@@ -523,13 +459,9 @@ function CPStyle.CPToolTip1End()
 	ImGui.EndGroup()
 	ImGui.EndTooltip()
 	CPStyle.colorEnd(2)
-	CPStyle.styleEnd(3)
 end
 
 function CPStyle.CPToolTip2Begin(sizex, sizey)
-	CPStyle.styleBegin("WindowRounding", 0)
-	CPStyle.styleBegin("PopupBorderSize", 0)
-	CPStyle.styleBegin("ChildBorderSize", 1)
 	CPStyle.colorBegin("PopupBg", CPStyle.theme.Hidden)
 	CPStyle.colorBegin("ChildBg", CPStyle.theme.CPToolTip2Bg)
 	CPStyle.colorBegin("Border", CPStyle.theme.CPToolTip2Border)
@@ -546,7 +478,6 @@ function CPStyle.CPToolTip2End()
 	ImGui.EndGroup()
 	ImGui.EndTooltip()
 	CPStyle.colorEnd(4)
-	CPStyle.styleEnd(3)
 end
 
 function CPStyle.CPRect(label, sizex, sizey, color, border_color, border_size, border_rounding, textalignx, textaligny)
@@ -559,11 +490,7 @@ function CPStyle.CPRect(label, sizex, sizey, color, border_color, border_size, b
 	CPStyle.colorBegin("Button", color)
 	CPStyle.colorBegin("ButtonActive", color)
 	CPStyle.colorBegin("ButtonHovered", color)
-	CPStyle.styleBegin("FrameBorderSize", border_size)
-	CPStyle.styleBegin("FrameRounding", border_rounding)
-	CPStyle.styleBegin("ButtonTextAlign", textalignx, textaligny)
 	local press = ImGui.Button(label, sizex, sizey)
-	CPStyle.styleEnd(3)
 	CPStyle.colorEnd(4)
 	return press
 end

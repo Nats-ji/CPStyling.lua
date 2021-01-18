@@ -21,7 +21,7 @@
 -- SOFTWARE.
 
 registerForEvent("onInit", function()
- 	CPS = require "plugins.cyber_engine_tweaks.mods.demo.CPStyling"
+ 	CPS = require "plugins.cyber_engine_tweaks.mods.cp_styling.CPStyling"
 	print("CPStyling.lua loaded")
  	theme = CPS.theme
   color = CPS.color
@@ -105,7 +105,6 @@ registerForEvent("onDraw", function()
 
 -- TabBar
 		if ImGui.BeginTabBar("Tabbar", ImGuiTabBarFlags.NoTooltip) then
-			CPS.styleBegin("TabRounding", 0)
 			if ImGui.BeginTabItem("Custom Widgets") then
 				ImGui.Dummy(0,10)
 				for i in pairs(checkbox) do
@@ -128,6 +127,9 @@ registerForEvent("onDraw", function()
 					ImGui.PopID()
           ImGui.Spacing()
 				end
+        ImGui.PushItemWidth(240)
+        ImGui.InputText("Textbox2", "Lorem ipsum dolor", 100, ImGuiInputTextFlags.AutoSelectAll)
+        ImGui.PopItemWidth()
 
 -- CPS ToolTips
 				ImGui.Dummy(0,8)
@@ -174,9 +176,7 @@ registerForEvent("onDraw", function()
 					ImGui.BeginChild("NCPDlogoUP", 100, 50)
 					ImGui.SetWindowFontScale(1.5)
 					CPS.colorBegin("Text", "5ef5ff")
-          CPS.styleBegin("FramePadding", 0, 0)
 					CPS.CPRect("NCPD", 100, 35, {"1d3941",0.6}, "3e8c94", 2, 2)
-          CPS.styleEnd()
 					ImGui.SetCursorPosY(ImGui.GetCursorPosY()-8)
 					CPS.CPRect("##NCPD2", 100, 15, {"3e8c94",0.9}, nil , 0, 50)
 					ImGui.EndChild()
@@ -258,7 +258,6 @@ registerForEvent("onDraw", function()
 				CPS.setFrameThemeEnd()
 				ImGui.EndTabItem()
 			end
-			CPS.styleEnd(1)
 			ImGui.EndTabBar()
 		end
 
