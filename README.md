@@ -4,6 +4,8 @@ This is a set of color schemes and widgets I made to match the style of Cyberpun
 I also included some useful functions for easier and faster ImGui styling.
 
 To use it under CET 1.8.3, checkout cet-1.8.3-fix branch
+
+Please make PR if you want to fix bugs or make improvements
 ### How to use
 ```lua
 CPS = require "cpstyling"
