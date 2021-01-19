@@ -1,5 +1,7 @@
 -- MIT License
 --
+-- - CPStyle.lua
+--
 -- Copyright (c) 2021 Mingming Cui
 --
 -- Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -343,11 +345,12 @@ function CPStyle.setThemeBegin()
 	-- CPStyle.colorBegin("NavWindowingDimBg"              , CPStyle.theme.NavWindowingDimBg)
 	-- CPStyle.colorBegin("ModalWindowDimBg"               , CPStyle.theme.ModalWindowDimBg)
 	-- CPStyle.colorBegin("ModalWindowDarkening"           , CPStyle.theme.ModalWindowDarkening)
+  CPStyle.styleBegin("WindowRounding"                 , 0)
 	CPStyle.styleBegin("ScrollbarSize"                  , 9)
 end
 
 function CPStyle.setThemeEnd()
-	CPStyle.styleEnd(1)
+	CPStyle.styleEnd(2)
 	CPStyle.colorEnd(39)
 end
 
@@ -373,7 +376,6 @@ function CPStyle.CPButton(label, sizex, sizey)
 	local press, hovered
 	ImGui.BeginGroup()
 	CPStyle.styleBegin("FrameBorderSize", 1)
-  CPStyle.styleBegin("FramePadding", 5, 0)
 	CPStyle.colorBegin("Button", CPStyle.theme.CPButton)
 	CPStyle.colorBegin("ButtonHovered", CPStyle.theme.CPButtonHovered)
 	CPStyle.colorBegin("ButtonActive", CPStyle.theme.CPButtonActive)
@@ -398,7 +400,7 @@ function CPStyle.CPButton(label, sizex, sizey)
 		end
 		CPStyle.colorEnd(3)
 	end
-	CPStyle.styleEnd(2)
+	CPStyle.styleEnd(1)
 	ImGui.EndGroup()
 	return press
 end
