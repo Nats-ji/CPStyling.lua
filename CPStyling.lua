@@ -491,16 +491,18 @@ function CPStyle.CPToggle(label, label_off, label_on, value, sizex, sizey)
 		ImGui.EndGroup()
 	end
 	CPStyle.styleEnd(1)
-	CPStyle.colorBegin("Button", CPStyle.theme.Hidden)
-	CPStyle.colorBegin("Text", CPStyle.theme.Text)
-	CPStyle.colorBegin("ButtonHovered", CPStyle.theme.Hidden)
-	CPStyle.colorBegin("ButtonActive", CPStyle.theme.Hidden)
-	CPStyle.styleBegin("FrameBorderSize", 0)
-	CPStyle.styleBegin("ButtonTextAlign", 0, 0.5)
-	ImGui.SameLine(sizex)
-	ImGui.Button(label, 0, sizey)
-	CPStyle.styleEnd(3)
-	CPStyle.colorEnd(4)
+  if label ~= nil and label ~= "" and label:match("^##") == nil then
+  	CPStyle.colorBegin("Button", CPStyle.theme.Hidden)
+  	CPStyle.colorBegin("Text", CPStyle.theme.Text)
+  	CPStyle.colorBegin("ButtonHovered", CPStyle.theme.Hidden)
+  	CPStyle.colorBegin("ButtonActive", CPStyle.theme.Hidden)
+  	CPStyle.styleBegin("FrameBorderSize", 0)
+  	CPStyle.styleBegin("ButtonTextAlign", 0, 0.5)
+  	ImGui.SameLine(sizex)
+  	ImGui.Button(label, 0, sizey)
+  	CPStyle.styleEnd(3)
+  	CPStyle.colorEnd(4)
+  end
 	ImGui.EndGroup()
 	return value, press
 end
