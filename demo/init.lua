@@ -21,7 +21,7 @@
 -- SOFTWARE.
 
 registerForEvent("onInit", function()
- 	CPS = require "plugins.cyber_engine_tweaks.mods.cp_styling.CPStyling"
+ 	CPS = require "plugins.cyber_engine_tweaks.mods.demo.CPStyling"
 	print("CPStyling.lua loaded")
  	theme = CPS.theme
   color = CPS.color
