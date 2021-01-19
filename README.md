@@ -1,8 +1,11 @@
 ### What is this
 Made for Cyber Engine Tweaks Mod creation.
-This is a set of color schemes and widgets I made to match the style of Cyberpunk 2077's UI style.
+This is a set of color schemes and widgets I made to match the style of Cyberpunk 2077's UI.
 I also included some useful functions for easier and faster ImGui styling.
 
+To use it under CET 1.8.3, checkout cet-1.8.3-fix branch
+
+Please make PR if you want to fix bugs or make improvements
 ### How to use
 ```lua
 CPS = require "cpstyling"
@@ -11,9 +14,12 @@ color = CPS.color
 ```
 Still WIP, will add more widgets. You can also download the demo to play with it yourself.
 
+![Imgur](https://i.imgur.com/fe3cd4w.png)
+
 ### Utilities
 ```lua
 --Setup the style for a new window and it's content.
+CPS.setThemeBegin()
 -- ImGui.Begin("I'm a window")
 -- ImGui.End()
 CPS.setThemeEnd()
@@ -57,6 +63,7 @@ CPS.styleEnd(1)
 
 CPButton:
 
+![Imgur](https://i.imgur.com/4neA19J.gif)
 ```lua
 press = CPS.CPButton(label)
 press = CPS.CPButton(label, sizex, sizey)
@@ -69,6 +76,7 @@ btn2 = CPS.CPButton("Btn2", 50, 30)
 ```
 CPToggle:
 
+![Imgur](https://i.imgur.com/gTwpaLY.gif)
 ```lua
 value, press = CPS.CPToggle(label, label_on, label_off, value, sizex, sizey)
 -- label (string), label_on (string), label_off (string), value (bool), sizex (float), sizey (float)
@@ -79,6 +87,7 @@ value, press = CPS.CPToggle("Toggle godmode", "OFF", "ON", value, 180, 0)
 ```
 CPToolTip:
 
+![Imgur](https://i.imgur.com/i467ORZ.gif)
 ```lua
 CPS.CPToolTip1Begin(sizex, sizey)
 -- ImGui.Text("This is a CPToolTip1")
@@ -90,6 +99,7 @@ CPS.CPToolTip2End()
 ```
 CPRect:
 
+![Imgur](https://i.imgur.com/M5FHWtb.png)
 ```lua
 press = CPS.CPRect(label, sizex, sizey, color, border_color [O], border_size [O], border_rounding [O], textalignx [O], textaligny [O])
 -- lable (string), sizex (float), sizey (float), color (any format), border_color (any format)
