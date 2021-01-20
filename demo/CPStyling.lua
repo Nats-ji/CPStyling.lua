@@ -1,6 +1,6 @@
 -- MIT License
 --
--- - CPStyle.lua
+-- - CPStyling.lua
 --
 -- Copyright (c) 2021 Mingming Cui
 --
@@ -23,6 +23,19 @@
 -- SOFTWARE.
 
 local CPStyle = {}
+local rootPath = "./plugins/cyber_engine_tweaks/mods/demo/"
+
+local function isModuleAvailable(module)
+    res = pcall(require,module)
+    if res then return true
+    elseif not(res) then
+        return false
+    end
+end
+
+if isModuleAvailable(rootPath.."png") then
+  png = require(rootPath.."png")
+end
 
 CPStyle.theme = {
   Text                                        =           { 1.00, 0.38, 0.33, 1.00 },
@@ -571,5 +584,48 @@ function CPStyle.CPRect(label, sizex, sizey, color, border_color, border_size, b
 	return press
 end
 
+function CPStyle.CPRect2(label, sizex, sizey, color)
+	CPStyle.colorBegin("ChildBg", color)
+	ImGui.BeginChild(label, sizex, sizey)
+  ImGui.EndChild()
+	CPStyle.colorEnd(1)
+end
+
+function CPStyle.CPDraw(name, image, scale)
+  ImGui.BeginGroup()
+  local basex, basey = ImGui.GetCursorPos()
+  local pixelx = 1
+  local pixely = 1
+  local cursorx = basex
+  local cursory = basey
+  local totalPixel = image.width*image.height
+  for i = 1, totalPixel do
+    ImGui.SetCursorPos(cursorx, cursory)
+    CPStyle.CPRect2("##"..name..i, 5, scale, image.pixels[pixely][pixelx])
+    pixelx = pixelx + 1
+    if pixelx > image.width then pixelx = 1 pixely = pixely + 1 end
+    cursorx = basex+(pixelx-1)*scale
+    cursory = basey+(pixely-1)*scale
+  end
+  ImGui.EndGroup()
+end
+
+function CPStyle.loadPNG(imagepath)
+  local imgraw = png(imagepath)
+  local img = {}
+  local x = {}
+  local y = {}
+  img.width = imgraw.width
+  img.height = imgraw.height
+  for i in pairs(imgraw.pixels) do
+    for t in pairs(imgraw.pixels[i]) do
+      y[t] = { imgraw.pixels[i][t].R/255, imgraw.pixels[i][t].G/255, imgraw.pixels[i][t].B/255, imgraw.pixels[i][t].A/255 }
+    end
+    x[i] = y
+    y = {}
+  end
+  img.pixels = x
+  return img
+end
 
 return CPStyle
