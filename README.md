@@ -8,11 +8,17 @@ To use it under CET 1.8.3, checkout cet-1.8.3-fix branch
 Please make PR if you want to fix bugs or make improvements
 ### How to use
 ```lua
-CPS = require "cpstyling"
+CPS = require "CPStyling"
 theme = CPS.theme
 color = CPS.color
 ```
-Still WIP, will add more widgets. You can also download the demo to play with it yourself.
+
+To use `CPS.loadPNG()` and `CPS.CPDraw()` functions, you need to include the `png.lua`, `deflatelua.lua` library.
+
+and open `CPStyling.lua` and `png.lua` change the `rootPath` to your project's root path.
+
+
+ #This project is still WIP, will add more widgets. You can also download the demo to play with it yourself.
 
 ![Imgur](https://i.imgur.com/fe3cd4w.png)
 
@@ -101,16 +107,45 @@ CPRect:
 
 ![Imgur](https://i.imgur.com/M5FHWtb.png)
 ```lua
-press = CPS.CPRect(label, sizex, sizey, color, border_color [O], border_size [O], border_rounding [O], textalignx [O], textaligny [O])
+press = CPS.CPRect1(label, sizex, sizey, color, border_color [O], border_size [O], border_rounding [O], textalignx [O], textaligny [O])
 -- lable (string), sizex (float), sizey (float), color (any format), border_color (any format)
 -- border_size (float), border_rounding (float), textalignx (float), textaligny (float)
 -- Returns press (bool)
 
+CPS.CPRect2(text_id, sizex, sizey, color)
+-- text_id (string), sizex (float), sizey(float), color (any format)
+-- Faster than CPRect1 but without return value.
+-- Also used in CPS.CPDraw()
+
 ---Example---
 -- Draw a red 50x50 Circle
-CPS.CPRect("##circle", 50, 50, {0,0,0,0}, color.red, 5, 25)
+CPS.CPRect1("##circle", 50, 50, {0,0,0,0}, color.red, 5, 25)
 -- Draw a green rounded rectangle with a brown border and text inside aligned to the right. 
-CPS.CPRect("I'm the text", 150, 50, color.green, color.brown, 3, 10, 1, 0.5)
+CPS.CPRect1("I'm the text", 150, 50, color.green, color.brown, 3, 10, 1, 0.5)
+```
+loadPNG and CPDraw:
+
+```lua
+-- Load a png image from file
+image = CPS.loadPNG(path_to_png)
+-- Return image = { wdith = int, height = int, pixels = {
+                                                         [1]:{
+                                                              [1]:{ R, G, B, A },
+                                                              [2]:{ R, G, B, A },
+                                                              ......
+                                                              },
+                                                         [2]:{
+                                                              ......
+                                                              },
+                                                         .....
+                                                          }
+-- Draw the png image
+CPS.CPDraw(text_id, image, scale)
+-- text_id (string), image (table), scale (number)
+
+---Example---
+image = CPS.loadPNG("./images/logo.png")
+CPS.CPDraw("logo", image, 5)
 ```
 
 ### Color Names
