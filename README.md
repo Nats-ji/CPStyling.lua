@@ -125,6 +125,8 @@ CPS.CPRect1("I'm the text", 150, 50, color.green, color.brown, 3, 10, 1, 0.5)
 ```
 loadPNG and CPDraw:
 
+![img](https://github.com/Nats-ji/CPStyling.lua/raw/master/.image/cpdraw.gif)
+
 ```lua
 -- Load a png image from file
 image = CPS.loadPNG(path_to_png)
