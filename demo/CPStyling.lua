@@ -601,7 +601,9 @@ function CPStyle.CPDraw(name, image, scale)
   local totalPixel = image.width*image.height
   for i = 1, totalPixel do
     ImGui.SetCursorPos(cursorx, cursory)
-    CPStyle.CPRect2("##"..name..i, 5, scale, image.pixels[pixely][pixelx])
+    if image.pixels[pixely][pixelx][4] ~= 0 then
+      CPStyle.CPRect2("##"..name..i, scale, scale, image.pixels[pixely][pixelx])
+    end
     pixelx = pixelx + 1
     if pixelx > image.width then pixelx = 1 pixely = pixely + 1 end
     cursorx = basex+(pixelx-1)*scale

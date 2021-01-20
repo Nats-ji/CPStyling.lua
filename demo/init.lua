@@ -21,12 +21,19 @@
 -- SOFTWARE.
 
 registerForEvent("onInit", function()
- 	CPS = require "plugins.cyber_engine_tweaks.mods.demo.CPStyling"
-	print("CPStyling.lua loaded")
+  rootPath = "./plugins/cyber_engine_tweaks/mods/demo/"
+  rootPathIO = "./plugins/cyber_engine_tweaks/mods/demo/"
+  package.loaded[rootPath.."CPStyling"] = nil
+  package.loaded[rootPath.."png"] = nil
+ 	CPS = require (rootPath.."CPStyling")
+  print("CPStyling.lua loaded")
+  png = require (rootPath.."png")
+    print("png.lua loaded")
  	theme = CPS.theme
   color = CPS.color
 	print("Theme Loaded")
 	draw = true
+  drawPNGViewer = false
 	wWidth, wHeight = GetDisplayResolution()
 	checkboxdef = {
 		{name = "My Checkbox1", value = false},
@@ -48,6 +55,16 @@ registerForEvent("onInit", function()
   col = { 0.58, 0.08, 0.81, 1.00 }
 	cpcb_value = { false, true, false, false, true }
 	cpcb_pressed = {}
+  print("Loading Images")
+  images = {
+    { name = "Mushroom", scale = 5, data = CPS.loadPNG(rootPathIO.."foxgirl.png")},
+    { name = "Fox Girl", scale = 5, data = CPS.loadPNG(rootPathIO.."mushroom.png")},
+    { name = "Lucario", scale = 5, data = CPS.loadPNG(rootPathIO.."lucario.png")},
+    { name = "Ghost in the shell", scale = 2, data = CPS.loadPNG(rootPathIO.."ghost_in_shell.png")},
+    { name = "Cyberpunk 2077", scale = 1, data = CPS.loadPNG(rootPathIO.."cyberpunk.png")}
+  }
+  image = images[1]
+  DrawSel = 0
 	print("Initiated")
 end)
 
@@ -65,6 +82,8 @@ registerForEvent("onUpdate", function()
 			print(tostring(cpcb_value[i])..i)
 		end
 	end
+
+  if cbDraw then image = images[DrawSel+1] end
 end)
 
 registerForEvent("onDraw", function()
@@ -74,7 +93,7 @@ registerForEvent("onDraw", function()
 		ImGui.SetWindowFontScale(1.0)
 		ImGui.SetWindowPos(wWidth/2-250, wHeight/2-400, ImGuiCond.FirstUseEver)
 		ImGui.SetWindowSize(505, 800)
-
+    winx , winy = ImGui.GetWindowPos()
 -- MenuBar
 		if ImGui.BeginMenuBar() then
 			if ImGui.BeginMenu("File") then
@@ -204,7 +223,16 @@ registerForEvent("onDraw", function()
 				ImGui.SameLine()
 				CPS.CPRect("Rect4##Recdemo4", 80, 50 , { 0, 0, 0 , 0}, {1,1,1,1} , 5, 80)
 
-
+-- CPDraw Controls
+        ImGui.Dummy(0,8)
+        ImGui.Text("CPDraw():")
+        drawPNGViewer, cpcbDraw = CPS.CPToggle("Show PNG Viewer", "OFF", "ON", drawPNGViewer, 240, 0)
+        if drawPNGViewer then
+          ImGui.PushItemWidth(240)
+          DrawSel, cbDraw = ImGui.Combo("Select PNG", DrawSel, { "Fox Girl", "Mushroom", "Lucario", "Ghost in a Shell", "Cyberpunk 2077" }, 5, 5)
+          image.scale , sldDraw = ImGui.SliderInt("PNG Scale", image.scale, 1, 25, "%dx")
+          ImGui.PopItemWidth()
+        end
 				ImGui.EndTabItem()
 			end
 			if ImGui.BeginTabItem("Default style") then
@@ -266,4 +294,17 @@ registerForEvent("onDraw", function()
 
 		CPS.setThemeEnd()
 	end
+  if drawPNGViewer then
+    CPS.styleBegin("WindowPadding", 0, 0)
+    CPS.styleBegin("WindowBorderSize", 0)
+    CPS.styleBegin("WindowRounding", 0)
+    CPS.colorBegin("WindowBg", theme.Hidden)
+    ImGui.Begin("PNG Viewer", true, ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoResize)
+    drawSizeX, drawSizey = ImGui.GetWindowSize()
+    ImGui.SetWindowPos(winx+505, winy+ 800 - drawSizey)
+    CPS.CPDraw(image.name, image.data, image.scale)
+    ImGui.End()
+    CPS.colorEnd(1)
+    CPS.styleEnd(3)
+  end
 end)
