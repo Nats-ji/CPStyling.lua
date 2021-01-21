@@ -24,7 +24,7 @@
 
 local CPStyle = {}
 local rootPath = "./"
-local rootPathIO = "."
+local rootPathIO = "./"
 
 local function isModuleAvailable(module)
     res = pcall(require,module)
