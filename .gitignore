@@ -8,5 +8,5 @@
 /cyberpunk.png
 /lucario.png
 /CPStyling_local.lua
-/deflatelua_local.lua
-/png_local.lua
+/png-lua/deflatelua_local.lua
+/png-lua/png_local.lua

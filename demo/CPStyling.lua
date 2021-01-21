@@ -33,8 +33,8 @@ local function isModuleAvailable(module)
     end
 end
 
-if isModuleAvailable(rootPath.."png") then
-  png = require(rootPath.."png")
+if isModuleAvailable(rootPath.."png-lua/png") then
+  png = require(rootPath.."png-lua/png")
 end
 
 CPStyle.theme = {

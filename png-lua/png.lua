@@ -20,7 +20,7 @@
 -- CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 local rootPath = "./"
-local deflate = require(rootPath.."deflatelua")
+local deflate = require(rootPath.."png-lua/deflatelua")
 local requiredDeflateVersion = "0.3.20111128"
 
 if (deflate._VERSION ~= requiredDeflateVersion) then
