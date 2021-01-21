@@ -23,6 +23,15 @@ and open `CPStyling.lua` and `png.lua` change the `rootPath` and `rootPathIO` to
 
 ![Imgur](https://i.imgur.com/fe3cd4w.png)
 
+### Projects using this library
+CP77-TetrisArcade [[Nexus]](https://www.nexusmods.com/cyberpunk2077/mods/1118) | [[Github]](https://github.com/justarandomguyintheinternet/cp77_arcade_tetris)
+
+![Imgur](https://i.imgur.com/zrhar0j.png)
+
+CP77-Braindance Protocol [[Nexus]](https://www.nexusmods.com/cyberpunk2077/mods/616) | [[Github]](https://github.com/WolvenKit/BraindanceProtocol)
+
+![Imgur](https://i.imgur.com/bVqLG7c.png)
+
 ### Utilities
 ```lua
 --Setup the style for a new window and it's content.
