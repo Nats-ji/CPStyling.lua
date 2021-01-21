@@ -1,8 +1,7 @@
-PNGLua
-======
-
 Forked from https://github.com/Didericis/png-lua
 
+PNGLua
+======
 
 A pure lua implementation of a PNG decoder
 
