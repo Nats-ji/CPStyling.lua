@@ -24,7 +24,6 @@
 
 local CPStyle = {}
 local rootPath = "./"
-local rootPathIO = "./"
 
 local function isModuleAvailable(module)
     res = pcall(require,module)
@@ -35,7 +34,7 @@ local function isModuleAvailable(module)
 end
 
 if isModuleAvailable(rootPath.."png-lua/png") then
-  png = require(rootPathIO.."png-lua/png")
+  png = require(rootPath.."png-lua/png")
 end
 
 CPStyle.theme = {
