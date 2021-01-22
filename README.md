@@ -15,9 +15,11 @@ color = CPS.color
 
 To use `CPS.loadPNG()` and `CPS.CPDraw()` functions, you need to include the `png.lua`, `deflatelua.lua` library.
 
-and open `CPStyling.lua` and `png.lua` change the `rootPath` and `rootPathIO` to your project's root path.
+and open `CPStyling.lua` and `png.lua` change the `rootPath` to your project's root path.
 
-**Note:** Due to some issue of CET 1.8.4, the root path of `io.open()` is different depending on how people launch their games. If they launch with admin privilege (that's what **Vortex** does) the `rootPathIO` should be starting from`.\plugins\..`, otherwise it should be from `.\bin\x64\plugins\..` It's up to you how to detect the root path.
+**Note:** Due to some issue of CET 1.8.4, the root path of `io.open()` is different depending on how people launch their games. You need to setup something like a `rootPathIO` in your `init.lua` for your png file path.
+
+If they launch with admin privilege (that's what **Vortex** does) the `rootPathIO` should be starting from`.\plugins\..`, otherwise it should be from `.\bin\x64\plugins\..` It's up to you how to detect the root path.
 
  #This project is still WIP, will add more widgets. You can also download the demo to play with it yourself.
 
