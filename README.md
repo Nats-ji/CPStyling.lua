@@ -17,8 +17,10 @@ To use `CPS.loadPNG()` and `CPS.CPDraw()` functions, you need to include the `pn
 
 and open `CPStyling.lua` and `png.lua` change the `rootPath` to your project's root path.
 
-**Note:** Due to some issue of CET 1.8.4, the root path of `io.open()` is different depending on how people launch their games. You need to setup something like a `rootPathIO` in your `init.lua` for your png file path.
-If they launch with admin privilege (that's what **Vortex** does) the `rootPathIO` should be starting from`.\plugins\..`, otherwise it should be from `.\bin\x64\plugins\..` It's up to you how to detect the root path.
+**Note:** Due to some issue of CET 1.9.2, the root path of `io.open()` is different depending on how people launch their games. You need to setup something like a `rootPathIO` in your `init.lua` for your png file path.
+If they launch with admin privilege (that's what **Vortex** does) the `rootPathIO` should be starting from`.\plugins\..`, otherwise it should be from `.\bin\x64\plugins\..`.
+After press ReloadALLMods button in CET, the root path will change into `mods\`
+You can use the `rootPathIO = CPS.getCWD(mod_name)` function to acquire the `rootPathIO` value automatically.
 
  #This project is still WIP, will add more widgets. You can also download the demo to play with it yourself.
 
@@ -35,6 +37,13 @@ CP77-Braindance Protocol [[Nexus]](https://www.nexusmods.com/cyberpunk2077/mods/
 
 ### Utilities
 ```lua
+--Get Current Working directory (For finxing the pathing issue in CET1.9)
+rootPathIO = CPS.getCWD("mymod")
+
+--Check if a file exists
+CPS.fileExists(filename)
+--returns bool
+
 --Setup the style for a new window and it's content.
 CPS.setThemeBegin()
 -- ImGui.Begin("I'm a window")
@@ -131,7 +140,7 @@ CPS.CPRect2(text_id, sizex, sizey, color)
 ---Example---
 -- Draw a red 50x50 Circle
 CPS.CPRect1("##circle", 50, 50, {0,0,0,0}, color.red, 5, 25)
--- Draw a green rounded rectangle with a brown border and text inside aligned to the right. 
+-- Draw a green rounded rectangle with a brown border and text inside aligned to the right.
 CPS.CPRect1("I'm the text", 150, 50, color.green, color.brown, 3, 10, 1, 0.5)
 ```
 loadPNG and CPDraw:
