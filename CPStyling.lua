@@ -630,4 +630,9 @@ function CPStyle.loadPNG(imagepath)
   return img
 end
 
+function CPStyle.fileExists(name)
+   local f=io.open(name,"r")
+   if (f~=nil) then io.close(f) return true else return false end
+end
+
 return CPStyle
