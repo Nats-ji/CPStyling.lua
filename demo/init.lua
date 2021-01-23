@@ -22,13 +22,13 @@
 
 registerForEvent("onInit", function()
   rootPath = "./plugins/cyber_engine_tweaks/mods/demo/"
-  rootPathIO = "./plugins/cyber_engine_tweaks/mods/demo/"
   package.loaded[rootPath.."CPStyling"] = nil
  	CPS = require (rootPath.."CPStyling")
   print("CPStyling.lua loaded")
  	theme = CPS.theme
   color = CPS.color
 	print("Theme Loaded")
+  rootPathIO = CPS.getCWD("demo")
 	draw = true
   drawPNGViewer = false
 	wWidth, wHeight = GetDisplayResolution()
