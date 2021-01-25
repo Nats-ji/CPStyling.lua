@@ -35,7 +35,6 @@ end
 
 if isModuleAvailable(currentFilePath.."png-lua/png") then
   png = require(currentFilePath.."png-lua/png")
-  print("png.lua loaded")
 end
 
 CPStyle.theme = {
