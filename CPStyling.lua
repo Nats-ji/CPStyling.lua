@@ -23,7 +23,7 @@
 -- SOFTWARE.
 
 local CPStyle = {}
-local rootPath = "./"
+local currentFilePath = (...):gsub("CPStyling$","")
 
 local function isModuleAvailable(module)
     res = pcall(require,module)
@@ -33,8 +33,9 @@ local function isModuleAvailable(module)
     end
 end
 
-if isModuleAvailable(rootPath.."png-lua/png") then
-  png = require(rootPath.."png-lua/png")
+if isModuleAvailable(currentFilePath.."png-lua/png") then
+  png = require(currentFilePath.."png-lua/png")
+  print("png.lua loaded")
 end
 
 CPStyle.theme = {
@@ -90,8 +91,8 @@ CPStyle.theme = {
   -- NavHighlight                             =           { 0.00, 0.00, 0.00, 0.00 },
   -- NavWindowingHighlight                    =           { 0.00, 0.00, 0.00, 0.00 },
   -- NavWindowingDimBg                        =           { 0.00, 0.00, 0.00, 0.00 },
-  -- ModalWindowDimBg                         =           { 0.00, 0.00, 0.00, 0.00 },
-  -- ModalWindowDarkening                     =           { 0.00, 0.00, 0.00, 0.00 },
+  ModalWindowDimBg                            =           { 0.00, 0.00, 0.00, 0.00 },
+  ModalWindowDarkening                        =           { 0.00, 0.00, 0.00, 0.40 },
   CPButton                                    =           { 0.06, 0.06, 0.12, 1.00 },
   CPButtonHovered                             =           { 0.43, 0.13, 0.13, 1.00 },
   CPButtonActive                              =           { 0.57, 0.16, 0.16, 1.00 },
@@ -356,15 +357,15 @@ function CPStyle.setThemeBegin()
 	-- CPStyle.colorBegin("NavHighlight"                   , CPStyle.theme.NavHighlight)
 	-- CPStyle.colorBegin("NavWindowingHighlight"          , CPStyle.theme.NavWindowingHighlight)
 	-- CPStyle.colorBegin("NavWindowingDimBg"              , CPStyle.theme.NavWindowingDimBg)
-	-- CPStyle.colorBegin("ModalWindowDimBg"               , CPStyle.theme.ModalWindowDimBg)
-	-- CPStyle.colorBegin("ModalWindowDarkening"           , CPStyle.theme.ModalWindowDarkening)
+	CPStyle.colorBegin("ModalWindowDimBg"               , CPStyle.theme.ModalWindowDimBg)
+	CPStyle.colorBegin("ModalWindowDarkening"           , CPStyle.theme.ModalWindowDarkening)
   CPStyle.styleBegin("WindowRounding"                 , 0)
 	CPStyle.styleBegin("ScrollbarSize"                  , 9)
 end
 
 function CPStyle.setThemeEnd()
 	CPStyle.styleEnd(2)
-	CPStyle.colorEnd(39)
+	CPStyle.colorEnd(41)
 end
 
 function CPStyle.setFrameThemeBegin()
