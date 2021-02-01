@@ -1,5 +1,9 @@
 -- MIT License
 --
+-- CPStyling.lua https://github.com/Nats-ji/CPStyling.lua
+--
+-- This file is a part of CPStyling.lua
+--
 -- Copyright (c) 2021 Mingming Cui
 --
 -- Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,17 +25,14 @@
 -- SOFTWARE.
 
 registerForEvent("onInit", function()
-  rootPath = "./plugins/cyber_engine_tweaks/mods/demo/"
-  package.loaded[rootPath.."CPStyling"] = nil
- 	CPS = require (rootPath.."CPStyling")
+  CPS = require ("CPStyling")
   print("CPStyling.lua loaded")
- 	theme = CPS.theme
+  theme = CPS.theme
   color = CPS.color
-	print("Theme Loaded")
-  rootPathIO = CPS.getCWD("demo")
-	draw = true
+  print("Theme Loaded")
+  draw = true
   drawPNGViewer = false
-	wWidth, wHeight = GetDisplayResolution()
+  wWidth, wHeight = GetDisplayResolution()
 	checkboxdef = {
 		{name = "My Checkbox1", value = false},
 		{name = "My Checkbox2", value = true},
@@ -54,15 +55,20 @@ registerForEvent("onInit", function()
 	cpcb_pressed = {}
   print("Loading Images")
   images = {
-    { name = "Mushroom", scale = 5, data = CPS.loadPNG(rootPathIO.."foxgirl.png")},
-    { name = "Fox Girl", scale = 5, data = CPS.loadPNG(rootPathIO.."mushroom.png")},
-    { name = "Lucario", scale = 5, data = CPS.loadPNG(rootPathIO.."lucario.png")},
-    { name = "Ghost in the shell", scale = 2, data = CPS.loadPNG(rootPathIO.."ghost_in_shell.png")},
-    { name = "Cyberpunk 2077", scale = 1, data = CPS.loadPNG(rootPathIO.."cyberpunk.png")}
+    { name = "Mushroom", scale = 5, data = CPS.loadPNG("img/foxgirl.png")},
+    { name = "Fox Girl", scale = 5, data = CPS.loadPNG("img/mushroom.png")},
+    { name = "Lucario", scale = 5, data = CPS.loadPNG("img/lucario.png")},
+    { name = "Ghost in the shell", scale = 2, data = CPS.loadPNG("img/ghost_in_shell.png")},
+    { name = "Cyberpunk 2077", scale = 1, data = CPS.loadPNG("img/cyberpunk.png")}
   }
+  print("Images Loaded")
   image = images[1]
   DrawSel = 0
 	print("Initiated")
+end)
+
+registerHotkey("overlay", "Open Demo", function()
+  draw = not draw
 end)
 
 registerForEvent("onUpdate", function()
@@ -86,7 +92,7 @@ end)
 registerForEvent("onDraw", function()
 	if draw then
 		CPS.setThemeBegin()
-		ImGui.Begin("CPStyling.lua Demo", true, ImGuiWindowFlags.MenuBar | ImGuiWindowFlags.NoResize)
+		draw = ImGui.Begin("CPStyling.lua Demo", true, ImGuiWindowFlags.MenuBar | ImGuiWindowFlags.NoResize)
 		ImGui.SetWindowFontScale(1.0)
 		ImGui.SetWindowPos(wWidth/2-250, wHeight/2-400, ImGuiCond.FirstUseEver)
 		ImGui.SetWindowSize(505, 800)
@@ -230,6 +236,20 @@ registerForEvent("onDraw", function()
           image.scale , sldDraw = ImGui.SliderInt("PNG Scale", image.scale, 1, 25, "%dx")
           ImGui.PopItemWidth()
         end
+
+-- Modal
+        if ImGui.Button("Pop Button", 120, 0) then
+          ImGui.OpenPopup("Delete?")
+        end
+
+        if ImGui.BeginPopupModal("Delete?", true, ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoMove) then
+          local x, y = ImGui.GetWindowSize()
+          ImGui.SetWindowPos((wWidth-x)*0.5, (wHeight-y)*0.5)
+          ImGui.Text("This is a popup")
+          if ImGui.Button("Close") then ImGui.CloseCurrentPopup() end
+          ImGui.EndPopup()
+        end
+
 				ImGui.EndTabItem()
 			end
 			if ImGui.BeginTabItem("Default style") then
@@ -237,8 +257,8 @@ registerForEvent("onDraw", function()
 				ImGui.InputText("Textbox", "Lorem ipsum dolor", 100, ImGuiInputTextFlags.AutoSelectAll)
 				ImGui.InputTextWithHint("Textbox with hint", "Password...", "", 10, ImGuiInputTextFlags.Password)
 				ImGui.InputFloat("Textbox float", 1.00000, 1, 10, "%.5f", ImGuiInputTextFlags.None)
-				ImGui.SliderFloat("Slider float", 1.00000, -10, 10, "%.5fx", 0.5)
-				ImGui.DragFloat("Drag float##2", 1.2354, 0.01, -10, 10, "%.5f", 0.5)
+				ImGui.SliderFloat("Slider float", 1.00000, -10, 10, "%.5fx")
+				ImGui.DragFloat("Drag float##2", 1.2354, 0.01, -10, 10, "%.5f")
 				ImGui.Combo("Combo box", 2, { "Option 1 ", "Option 2", "Option 3", "Option 4", "Option 5" }, 5, 3)
 				if ImGui.ListBoxHeader("ListBox", 5) then
 					ImGui.SetWindowFontScale(1.0)
@@ -262,8 +282,8 @@ registerForEvent("onDraw", function()
 				ImGui.InputText("Textbox##2", "Lorem ipsum dolor", 100, ImGuiInputTextFlags.AutoSelectAll)
 				ImGui.InputTextWithHint("Textbox with hint##2", "Password...", "", 10, ImGuiInputTextFlags.Password)
 				ImGui.InputFloat("Textbox float##2", 1.00000, 1, 10, "%.5f", ImGuiInputTextFlags.None)
-				ImGui.SliderFloat("Slider float##2", 1.00000, -10, 10, "%.5fx", 0.5)
-				ImGui.DragFloat("Drag float##2", 1.2354, 0.01, -10, 10, "%.5f", 0.5)
+				ImGui.SliderFloat("Slider float##2", 1.00000, -10, 10, "%.5fx")
+				ImGui.DragFloat("Drag float##2", 1.2354, 0.01, -10, 10, "%.5f")
 				ImGui.Combo("Combo box##2", 2, { "Option 1 ", "Option 2", "Option 3", "Option 4", "Option 5" }, 5, 3)
 				if ImGui.ListBoxHeader("ListBox##2", 5) then
 					ImGui.SetWindowFontScale(1.0)
