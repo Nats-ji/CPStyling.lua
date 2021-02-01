@@ -3,7 +3,6 @@ Made for Cyber Engine Tweaks Mod creation.
 This is a set of color schemes and widgets I made to match the style of Cyberpunk 2077's UI.
 I also included some useful functions for easier and faster ImGui styling.
 
-To use it under CET 1.8.3, checkout cet-1.8.3-fix branch
 
 Please make PR if you want to fix bugs or make improvements
 ### How to use
@@ -13,14 +12,7 @@ theme = CPS.theme
 color = CPS.color
 ```
 
-To use `CPS.loadPNG()` and `CPS.CPDraw()` functions, you need to include the `png.lua`, `deflatelua.lua` library.
-
-and open `CPStyling.lua` and `png.lua` change the `rootPath` to your project's root path.
-
-**Note:** Due to some issue of CET 1.9.2, the root path of `io.open()` is different depending on how people launch their games. You need to setup something like a `rootPathIO` in your `init.lua` for your png file path.
-If they launch with admin privilege (that's what **Vortex** does) the `rootPathIO` should be starting from`.\plugins\..`, otherwise it should be from `.\bin\x64\plugins\..`.
-After press ReloadALLMods button in CET, the root path will change into `mods\`
-You can use the `rootPathIO = CPS.getCWD(mod_name)` function to acquire the `rootPathIO` value automatically.
+To use `CPS.loadPNG()` and `CPS.CPDraw()` functions, you need to include the `png-lua` library.
 
  #This project is still WIP, will add more widgets. You can also download the demo to play with it yourself.
 
@@ -37,9 +29,6 @@ CP77-Braindance Protocol [[Nexus]](https://www.nexusmods.com/cyberpunk2077/mods/
 
 ### Utilities
 ```lua
---Get Current Working directory (For finxing the pathing issue in CET1.9)
-rootPathIO = CPS.getCWD("mymod")
-
 --Check if a file exists
 CPS.fileExists(filename)
 --returns bool
@@ -68,7 +57,8 @@ CPS.colorEnd(count) --Same as ImGui.PopStyleColor(count)
 ---Example---
 CPS.colorBegin("Button", { 1, 0, 0, 1 })
 CPS.colorBegin("Button", "672b1f")
-CPS.colorBegin("Button", CPC.Button)  -- get color from cpc.lua
+CPS.colorBegin("Button", theme.Button)  -- get color from theme.lua
+CPS.colorBegin("Button", color.blue)  -- get color from styles.lua
 ImGui.Button("I'm a Button")
 CPS.colorEnd(1)
 
@@ -175,8 +165,8 @@ CPS.CPDraw("logo", image, 5)
 "red"
 "cyan"
 "blue"
-"darkBlue"
-"lightBlue"
+"darkblue"
+"lightblue"
 "purple"
 "yellow"
 "lime"

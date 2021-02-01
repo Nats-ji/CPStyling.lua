@@ -19,7 +19,7 @@
 -- IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 -- CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-local currentFilePath = (...):gsub("png$","")
+local currentFilePath = "CPStyling/png-lua/"
 local deflate = require(currentFilePath.."deflatelua")
 local requiredDeflateVersion = "0.3.20111128"
 
