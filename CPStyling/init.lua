@@ -405,6 +405,25 @@ function CPStyle.CPDraw(name, image, scale)
   ImGui.EndGroup()
 end
 
+function CPStyle.CPDraw2(drawlist, posX, posY, image, scale)
+  ImGui.BeginGroup()
+  local pixelx = 1
+  local pixely = 1
+  local cursorx = posX
+  local cursory = posY
+  local totalPixel = image.width*image.height
+  for i = 1, totalPixel do
+    if image.pixels[pixely][pixelx][4] ~= 0 then
+			ImGui.ImDrawListAddRectFilled(drawlist, cursorx, cursory, cursorx+scale, cursory+scale, ImGui.GetColorU32(table.unpack(image.pixels[pixely][pixelx])))
+    end
+    pixelx = pixelx + 1
+    if pixelx > image.width then pixelx = 1 pixely = pixely + 1 end
+    cursorx = posX+(pixelx-1)*scale
+    cursory = posY+(pixely-1)*scale
+  end
+  ImGui.EndGroup()
+end
+
 function CPStyle.loadPNG(imagepath)
   local imgraw = png(imagepath)
   local img = {}
