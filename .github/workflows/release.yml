@@ -1,0 +1,39 @@
+name: Release
+on:
+  release:
+      types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - name: Copy files
+        run: |
+          mkdir -p ./build/release-main/ ./build/release-demo/ ./build/release/
+          cp LICENSE ./CPStyling/
+          cp LICENSE ./demo/
+          rm ./CPStyling/png-lua/README.md
+          mv ./CPStyling/ ./build/release-main/CPStyling/
+          mv ./demo/ ./build/release-demo/demo/
+
+      - name: Zip Release
+        uses: TheDoctor0/zip-release@0.4.1
+        with:
+          filename: ../release/CPStyling_${{ env.RELEASE_VERSION }}.zip
+          directory: ./build/release-main/
+
+      - name: Zip Demo
+        uses: TheDoctor0/zip-release@0.4.1
+        with:
+          filename: ../release/demo_${{ env.RELEASE_VERSION }}.zip
+          directory: ./build/release-demo/
+
+      - name: Upload Artifacts
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          artifacts: "./build/release/CPStyling_${{ env.RELEASE_VERSION }}.zip, ./build/release/demo_${{ env.RELEASE_VERSION }}.zip"
+          token: ${{ secrets.GITHUB_TOKEN }}
