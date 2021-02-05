@@ -2,12 +2,6 @@
 /demo.lua
 /init.lua
 /init.lua_disabled
-/mushroom.png
-/foxgirl.png
-/ghost_in_shell.png
-/cyberpunk.png
-/lucario.png
-/CPStyling_local.lua
-/png-lua/deflatelua_local.lua
-/png-lua/png_local.lua
-/cp_styling.log
+/img/
+/cp_styling*.log
+/db.sqlite3
