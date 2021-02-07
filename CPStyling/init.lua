@@ -216,6 +216,7 @@ end
 function CPStyle.CPToggle(label, label_off, label_on, value, sizex, sizey)
 	local press_off, press_on, hovered
 	ImGui.BeginGroup()
+	local posx, posy = ImGui.GetCursorPos()
 	CPStyle.styleBegin("FrameBorderSize", 1)
 	ImGui.BeginGroup()
 	if value then
@@ -267,7 +268,7 @@ function CPStyle.CPToggle(label, label_off, label_on, value, sizex, sizey)
 	hovered = ImGui.IsItemHovered()
 
 	if hovered then --show hovered border color and text color
-		ImGui.SameLine(0.0001)
+		ImGui.SetCursorPos(posx, posy)
 		ImGui.BeginGroup()
 		if value then
 			CPStyle.colorBegin("Border", CPStyle.theme.CPToggleOffDisabledBorderHovered)
@@ -300,7 +301,6 @@ function CPStyle.CPToggle(label, label_off, label_on, value, sizex, sizey)
 	CPStyle.styleEnd(1)
   if label ~= nil and label ~= "" and label:match("^##") == nil then
   	CPStyle.colorBegin("Button", CPStyle.theme.Hidden)
-  	CPStyle.colorBegin("Text", CPStyle.theme.Text)
   	CPStyle.colorBegin("ButtonHovered", CPStyle.theme.Hidden)
   	CPStyle.colorBegin("ButtonActive", CPStyle.theme.Hidden)
   	CPStyle.styleBegin("FrameBorderSize", 0)
@@ -308,7 +308,7 @@ function CPStyle.CPToggle(label, label_off, label_on, value, sizex, sizey)
   	ImGui.SameLine(sizex)
   	ImGui.Button(label, 0, sizey)
   	CPStyle.styleEnd(2)
-  	CPStyle.colorEnd(4)
+  	CPStyle.colorEnd(3)
   end
 	ImGui.EndGroup()
 	return value, press
