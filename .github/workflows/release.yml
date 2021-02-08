@@ -35,5 +35,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
+          omitNameDuringUpdate: true
+          omitBodyDuringUpdate: true
           artifacts: "./build/release/CPStyling_${{ env.RELEASE_VERSION }}.zip, ./build/release/demo_${{ env.RELEASE_VERSION }}.zip"
           token: ${{ secrets.GITHUB_TOKEN }}
