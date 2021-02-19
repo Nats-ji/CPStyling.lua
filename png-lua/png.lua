@@ -19,7 +19,7 @@
 -- IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 -- CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-local currentFilePath = "CPStyling/png-lua/"
+local currentFilePath = "png-lua/"
 local deflate = require(currentFilePath.."deflatelua")
 local requiredDeflateVersion = "0.3.20111128"
 
@@ -237,8 +237,7 @@ local function getPixelRow(stream, depth, colorType, palette, length)
 end
 
 
-local function pngImage(path, progCallback, verbose, memSave)
-    local stream = io.open(path, "rb")
+local function pngImage(stream, progCallback, verbose, memSave)
     local chunkData
     local imStr
     local width = 0
