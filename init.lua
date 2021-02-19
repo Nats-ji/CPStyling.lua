@@ -59,7 +59,7 @@ local function hex2rgb(hex)
 end
 
 local function loadTheme(theme)
-	local chunk = loadfile(currentFilePath..theme..".lua") -- Need to convert to json
+	local chunk = loadfile(currentFilePath.."themes/"..theme..".lua") -- Need to convert to json
 	return chunk()
 end
 
