@@ -11,7 +11,8 @@ I also included some useful functions for easier and faster ImGui styling.
 Please make PR if you want to fix bugs or make improvements
 ### How to use
 
-1. Add this library to your mod's requirements list (You do not need to include this lib in your mod) [[Github]](https://github.com/Nats-ji/CPStyling.lua/releases/latest) | [[Nexus]](https://www.nexusmods.com/users/106335388?tab=user+files)
+1. Add this library to your mod's requirements list [[Github]](https://github.com/Nats-ji/CPStyling.lua/releases/latest) | [[Nexus]](https://www.nexusmods.com/users/106335388?tab=user+files)
+(You do not need to include this lib in your mod) 
 2. Require CPStyling
    ```lua
    CPS = GetMod("CPStyling"):New() -- Read below to learn how to use custom theme
