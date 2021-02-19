@@ -25,7 +25,7 @@
 -- SOFTWARE.
 
 registerForEvent("onInit", function()
-  CPS = GetMod("CPStyling"):New()
+  CPS = GetMod("CPStyling"):New("demo2")
   print("CPStyling.lua loaded")
   theme = CPS.theme
   color = CPS.color
@@ -92,7 +92,7 @@ end)
 registerForEvent("onDraw", function()
 	if draw then
 		CPS:setThemeBegin()
-		draw = ImGui.Begin("CPStyling.lua Demo", true, ImGuiWindowFlags.MenuBar | ImGuiWindowFlags.NoResize)
+		draw = ImGui.Begin("CPStyling.lua Demo2", true, ImGuiWindowFlags.MenuBar | ImGuiWindowFlags.NoResize)
 		ImGui.SetWindowFontScale(1.0)
 		ImGui.SetWindowPos(wWidth/2-250, wHeight/2-400, ImGuiCond.FirstUseEver)
 		ImGui.SetWindowSize(505, 800)
@@ -316,7 +316,7 @@ registerForEvent("onDraw", function()
     CPS.styleBegin("WindowBorderSize", 0)
     CPS.styleBegin("WindowRounding", 0)
     CPS.colorBegin("WindowBg", theme.Hidden)
-    ImGui.Begin("PNG Viewer", true, ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoResize)
+    ImGui.Begin("PNG Viewer2", true, ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoResize)
     drawSizeX, drawSizey = ImGui.GetWindowSize()
     ImGui.SetWindowPos(winx+505, winy+ 800 - drawSizey)
     CPS:CPDraw(image.name, image.data, image.scale)
