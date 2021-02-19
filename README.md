@@ -30,9 +30,9 @@ Please make PR if you want to fix bugs or make improvements
 | ![Imgur](https://i.imgur.com/zrhar0j.png) | ![Imgur](https://i.imgur.com/bVqLG7c.png) |
 
 ### Custom theme
-1. To use custom theme, you need to put your mod's name in `GetMod("CPStyling"):New(mod_name)`
+1. To use custom theme, you need to put your mod's name in `GetMod("CPStyling"):New("your_mod_name")`
    ```lua
-   CPS = GetMod("CPStyling"):New(mod_name)
+   CPS = GetMod("CPStyling"):New("your_mod_name")
    ```
 2. Duplicate `./themes/default.lua` and rename it to `your_mod_name.lua`
 3. Change the color scheme in `your_mod_name.lua` as you like
