@@ -25,13 +25,13 @@
 -- SOFTWARE.
 
 local CPStyle = {}
-local currentFilePath = "CPStyling/"
-CPStyle.theme = require(currentFilePath.."theme")
+local currentFilePath = ""
+-- CPStyle.theme = require(currentFilePath.."theme")
 local styles = require(currentFilePath.."styles")
 local ImGuiStyleNames = styles.ImGuiStyleNames
 CPStyle.color = styles.color
 
-png = require(currentFilePath.."png-lua/png")
+local png = require(currentFilePath.."png-lua/png")
 
 local function ToImGuiStyleName(style, which)
 	if which == "Col" then
@@ -56,6 +56,23 @@ local function hex2rgb(hex)
     else
       return tonumber("0x"..hex:sub(1,2))/255, tonumber("0x"..hex:sub(3,4))/255, tonumber("0x"..hex:sub(5,6))/255
     end
+end
+
+local function loadTheme(theme)
+	local chunk = loadfile(currentFilePath..theme..".lua") -- Need to convert to json
+	return chunk()
+end
+
+function CPStyle:New(mod_name)
+	local o = {}
+	if mod_name then
+		o.theme = loadTheme(mod_name)
+	else
+		o.theme = loadTheme("default")
+	end
+	setmetatable(o, self)
+	self.__index = self
+	return o
 end
 
 function CPStyle.colorBegin(style, color)
@@ -102,96 +119,96 @@ function CPStyle.styleEnd(count)
   end
 end
 
-function CPStyle.setThemeBegin()
-	CPStyle.colorBegin("Text"                           , CPStyle.theme.Text)
-	CPStyle.colorBegin("TextDisabled"                   , CPStyle.theme.TextDisabled)
-	CPStyle.colorBegin("WindowBg"                       , CPStyle.theme.WindowBg)
-	CPStyle.colorBegin("ChildBg"                        , CPStyle.theme.ChildBg)
-	CPStyle.colorBegin("PopupBg"                        , CPStyle.theme.PopupBg)
-	CPStyle.colorBegin("Border"                         , CPStyle.theme.Border)
-	CPStyle.colorBegin("BorderShadow"                   , CPStyle.theme.BorderShadow)
-	CPStyle.colorBegin("FrameBg"                        , CPStyle.theme.FrameBg)
-	CPStyle.colorBegin("FrameBgHovered"                 , CPStyle.theme.FrameBgHovered)
-	CPStyle.colorBegin("FrameBgActive"                  , CPStyle.theme.FrameBgActive)
-	CPStyle.colorBegin("TitleBg"                        , CPStyle.theme.TitleBg)
-	CPStyle.colorBegin("TitleBgActive"                  , CPStyle.theme.TitleBgActive)
-	CPStyle.colorBegin("TitleBgCollapsed"               , CPStyle.theme.TitleBgCollapsed)
-	CPStyle.colorBegin("MenuBarBg"                      , CPStyle.theme.MenuBarBg)
-	CPStyle.colorBegin("ScrollbarBg"                    , CPStyle.theme.ScrollbarBg)
-	CPStyle.colorBegin("ScrollbarGrab"                  , CPStyle.theme.ScrollbarGrab)
-	CPStyle.colorBegin("ScrollbarGrabHovered"           , CPStyle.theme.ScrollbarGrabHovered)
-	CPStyle.colorBegin("ScrollbarGrabActive"            , CPStyle.theme.ScrollbarGrabActive)
-	CPStyle.colorBegin("CheckMark"                      , CPStyle.theme.CheckMark)
-	CPStyle.colorBegin("SliderGrab"                     , CPStyle.theme.SliderGrab)
-	CPStyle.colorBegin("SliderGrabActive"               , CPStyle.theme.SliderGrabActive)
-	CPStyle.colorBegin("Button"                         , CPStyle.theme.Button)
-	CPStyle.colorBegin("ButtonHovered"                  , CPStyle.theme.ButtonHovered)
-	CPStyle.colorBegin("ButtonActive"                   , CPStyle.theme.ButtonActive)
-	CPStyle.colorBegin("Header"                         , CPStyle.theme.Header)
-	CPStyle.colorBegin("HeaderHovered"                  , CPStyle.theme.HeaderHovered)
-	CPStyle.colorBegin("HeaderActive"                   , CPStyle.theme.HeaderActive)
-	CPStyle.colorBegin("Separator"                      , CPStyle.theme.Separator)
-	CPStyle.colorBegin("SeparatorHovered"               , CPStyle.theme.SeparatorHovered)
-	CPStyle.colorBegin("SeparatorActive"                , CPStyle.theme.SeparatorActive)
-	CPStyle.colorBegin("ResizeGrip"                     , CPStyle.theme.ResizeGrip)
-	CPStyle.colorBegin("ResizeGripHovered"              , CPStyle.theme.ResizeGripHovered)
-	CPStyle.colorBegin("ResizeGripActive"               , CPStyle.theme.ResizeGripActive)
-	CPStyle.colorBegin("Tab"                            , CPStyle.theme.Tab)
-	CPStyle.colorBegin("TabHovered"                     , CPStyle.theme.TabHovered)
-	CPStyle.colorBegin("TabActive"                      , CPStyle.theme.TabActive)
-	CPStyle.colorBegin("TabUnfocused"                   , CPStyle.theme.TabUnfocused)
-	CPStyle.colorBegin("TabUnfocusedActive"             , CPStyle.theme.TabUnfocusedActive)
-	-- CPStyle.colorBegin("PlotLines"                      , CPStyle.theme.PlotLines)
-	-- CPStyle.colorBegin("PlotLinesHovered"               , CPStyle.theme.PlotLinesHovered)
-	-- CPStyle.colorBegin("PlotHistogram"                  , CPStyle.theme.PlotHistogram)
-	-- CPStyle.colorBegin("PlotHistogramHovered"           , CPStyle.theme.PlotHistogramHovered)
-	-- CPStyle.colorBegin("TableHeaderBg"                  , CPStyle.theme.TableHeaderBg)
-	-- CPStyle.colorBegin("TableBorderStrong"              , CPStyle.theme.TableBorderStrong)
-	-- CPStyle.colorBegin("TableBorderLight"               , CPStyle.theme.TableBorderLight)
-	-- CPStyle.colorBegin("TableRowBg"                     , CPStyle.theme.TableRowBg)
-	-- CPStyle.colorBegin("TableRowBgAlt"                  , CPStyle.theme.TableRowBgAlt)
-	CPStyle.colorBegin("TextSelectedBg"                 , CPStyle.theme.TextSelectedBg)
-	-- CPStyle.colorBegin("DragDropTarget"                 , CPStyle.theme.DragDropTarget)
-	CPStyle.colorBegin("NavHighlight"                   , CPStyle.theme.NavHighlight)
-	CPStyle.colorBegin("NavWindowingHighlight"          , CPStyle.theme.NavWindowingHighlight)
-	CPStyle.colorBegin("NavWindowingDimBg"              , CPStyle.theme.NavWindowingDimBg)
-	CPStyle.colorBegin("ModalWindowDimBg"               , CPStyle.theme.ModalWindowDimBg)
+function CPStyle:setThemeBegin()
+	CPStyle.colorBegin("Text"                           , self.theme.Text)
+	CPStyle.colorBegin("TextDisabled"                   , self.theme.TextDisabled)
+	CPStyle.colorBegin("WindowBg"                       , self.theme.WindowBg)
+	CPStyle.colorBegin("ChildBg"                        , self.theme.ChildBg)
+	CPStyle.colorBegin("PopupBg"                        , self.theme.PopupBg)
+	CPStyle.colorBegin("Border"                         , self.theme.Border)
+	CPStyle.colorBegin("BorderShadow"                   , self.theme.BorderShadow)
+	CPStyle.colorBegin("FrameBg"                        , self.theme.FrameBg)
+	CPStyle.colorBegin("FrameBgHovered"                 , self.theme.FrameBgHovered)
+	CPStyle.colorBegin("FrameBgActive"                  , self.theme.FrameBgActive)
+	CPStyle.colorBegin("TitleBg"                        , self.theme.TitleBg)
+	CPStyle.colorBegin("TitleBgActive"                  , self.theme.TitleBgActive)
+	CPStyle.colorBegin("TitleBgCollapsed"               , self.theme.TitleBgCollapsed)
+	CPStyle.colorBegin("MenuBarBg"                      , self.theme.MenuBarBg)
+	CPStyle.colorBegin("ScrollbarBg"                    , self.theme.ScrollbarBg)
+	CPStyle.colorBegin("ScrollbarGrab"                  , self.theme.ScrollbarGrab)
+	CPStyle.colorBegin("ScrollbarGrabHovered"           , self.theme.ScrollbarGrabHovered)
+	CPStyle.colorBegin("ScrollbarGrabActive"            , self.theme.ScrollbarGrabActive)
+	CPStyle.colorBegin("CheckMark"                      , self.theme.CheckMark)
+	CPStyle.colorBegin("SliderGrab"                     , self.theme.SliderGrab)
+	CPStyle.colorBegin("SliderGrabActive"               , self.theme.SliderGrabActive)
+	CPStyle.colorBegin("Button"                         , self.theme.Button)
+	CPStyle.colorBegin("ButtonHovered"                  , self.theme.ButtonHovered)
+	CPStyle.colorBegin("ButtonActive"                   , self.theme.ButtonActive)
+	CPStyle.colorBegin("Header"                         , self.theme.Header)
+	CPStyle.colorBegin("HeaderHovered"                  , self.theme.HeaderHovered)
+	CPStyle.colorBegin("HeaderActive"                   , self.theme.HeaderActive)
+	CPStyle.colorBegin("Separator"                      , self.theme.Separator)
+	CPStyle.colorBegin("SeparatorHovered"               , self.theme.SeparatorHovered)
+	CPStyle.colorBegin("SeparatorActive"                , self.theme.SeparatorActive)
+	CPStyle.colorBegin("ResizeGrip"                     , self.theme.ResizeGrip)
+	CPStyle.colorBegin("ResizeGripHovered"              , self.theme.ResizeGripHovered)
+	CPStyle.colorBegin("ResizeGripActive"               , self.theme.ResizeGripActive)
+	CPStyle.colorBegin("Tab"                            , self.theme.Tab)
+	CPStyle.colorBegin("TabHovered"                     , self.theme.TabHovered)
+	CPStyle.colorBegin("TabActive"                      , self.theme.TabActive)
+	CPStyle.colorBegin("TabUnfocused"                   , self.theme.TabUnfocused)
+	CPStyle.colorBegin("TabUnfocusedActive"             , self.theme.TabUnfocusedActive)
+	-- CPStyle.colorBegin("PlotLines"                      , self.theme.PlotLines)
+	-- CPStyle.colorBegin("PlotLinesHovered"               , self.theme.PlotLinesHovered)
+	-- CPStyle.colorBegin("PlotHistogram"                  , self.theme.PlotHistogram)
+	-- CPStyle.colorBegin("PlotHistogramHovered"           , self.theme.PlotHistogramHovered)
+	-- CPStyle.colorBegin("TableHeaderBg"                  , self.theme.TableHeaderBg)
+	-- CPStyle.colorBegin("TableBorderStrong"              , self.theme.TableBorderStrong)
+	-- CPStyle.colorBegin("TableBorderLight"               , self.theme.TableBorderLight)
+	-- CPStyle.colorBegin("TableRowBg"                     , self.theme.TableRowBg)
+	-- CPStyle.colorBegin("TableRowBgAlt"                  , self.theme.TableRowBgAlt)
+	CPStyle.colorBegin("TextSelectedBg"                 , self.theme.TextSelectedBg)
+	-- CPStyle.colorBegin("DragDropTarget"                 , self.theme.DragDropTarget)
+	CPStyle.colorBegin("NavHighlight"                   , self.theme.NavHighlight)
+	CPStyle.colorBegin("NavWindowingHighlight"          , self.theme.NavWindowingHighlight)
+	CPStyle.colorBegin("NavWindowingDimBg"              , self.theme.NavWindowingDimBg)
+	CPStyle.colorBegin("ModalWindowDimBg"               , self.theme.ModalWindowDimBg)
   CPStyle.styleBegin("WindowRounding"                 , 0)
 	CPStyle.styleBegin("ScrollbarSize"                  , 9)
 end
 
-function CPStyle.setThemeEnd()
+function CPStyle:setThemeEnd()
 	CPStyle.styleEnd(2)
 	CPStyle.colorEnd(43)
 end
 
-function CPStyle.setFrameThemeBegin()
-	CPStyle.colorBegin("FrameBg"                        , CPStyle.theme.CPFrameBg)
-	CPStyle.colorBegin("FrameBgHovered"                 , CPStyle.theme.CPFrameBgHovered)
-	CPStyle.colorBegin("FrameBgActive"                  , CPStyle.theme.CPFrameBgActive)
-	CPStyle.colorBegin("SliderGrab"                     , CPStyle.theme.CPSliderGrab)
-	CPStyle.colorBegin("SliderGrabActive"               , CPStyle.theme.CPSliderGrabActive)
-	CPStyle.colorBegin("Border"                         , CPStyle.theme.CPFrameBorder)
-	CPStyle.colorBegin("TextSelectedBg"                 , CPStyle.theme.CPTextSelectedBg)
+function CPStyle:setFrameThemeBegin()
+	CPStyle.colorBegin("FrameBg"                        , self.theme.CPFrameBg)
+	CPStyle.colorBegin("FrameBgHovered"                 , self.theme.CPFrameBgHovered)
+	CPStyle.colorBegin("FrameBgActive"                  , self.theme.CPFrameBgActive)
+	CPStyle.colorBegin("SliderGrab"                     , self.theme.CPSliderGrab)
+	CPStyle.colorBegin("SliderGrabActive"               , self.theme.CPSliderGrabActive)
+	CPStyle.colorBegin("Border"                         , self.theme.CPFrameBorder)
+	CPStyle.colorBegin("TextSelectedBg"                 , self.theme.CPTextSelectedBg)
 	CPStyle.styleBegin("FrameBorderSize"                , 1)
 end
 
-function CPStyle.setFrameThemeEnd()
+function CPStyle:setFrameThemeEnd()
 	CPStyle.styleEnd(1)
 	CPStyle.colorEnd(7)
 end
 
 -- CPButton
 
-function CPStyle.CPButton(label, sizex, sizey)
+function CPStyle:CPButton(label, sizex, sizey)
 	local press, hovered
 	ImGui.BeginGroup()
 	CPStyle.styleBegin("FrameBorderSize", 1)
-	CPStyle.colorBegin("Button", CPStyle.theme.CPButton)
-	CPStyle.colorBegin("ButtonHovered", CPStyle.theme.CPButtonHovered)
-	CPStyle.colorBegin("ButtonActive", CPStyle.theme.CPButtonActive)
-	CPStyle.colorBegin("Text", CPStyle.theme.CPButtonText)
-	CPStyle.colorBegin("Border", CPStyle.theme.CPButtonBorder)
+	CPStyle.colorBegin("Button", self.theme.CPButton)
+	CPStyle.colorBegin("ButtonHovered", self.theme.CPButtonHovered)
+	CPStyle.colorBegin("ButtonActive", self.theme.CPButtonActive)
+	CPStyle.colorBegin("Text", self.theme.CPButtonText)
+	CPStyle.colorBegin("Border", self.theme.CPButtonBorder)
 	if sizex == nil or sizey == nil then
 		press = ImGui.Button(label)
 	else
@@ -201,9 +218,9 @@ function CPStyle.CPButton(label, sizex, sizey)
 	hovered = ImGui.IsItemHovered()
 	if hovered then
 		ImGui.SameLine(0.0001)
-		CPStyle.colorBegin("Border", CPStyle.theme.CPButtonBorderHovered)
-		CPStyle.colorBegin("Text", CPStyle.theme.Hidden)
-		CPStyle.colorBegin("Button", CPStyle.theme.Hidden)
+		CPStyle.colorBegin("Border", self.theme.CPButtonBorderHovered)
+		CPStyle.colorBegin("Text", self.theme.Hidden)
+		CPStyle.colorBegin("Button", self.theme.Hidden)
 		if sizex == nil or sizey == nil then
 			ImGui.Button(label.."##hovered")
 		else
@@ -218,43 +235,43 @@ end
 
 -- CPToggle
 
-function CPStyle.CPToggle(label, label_off, label_on, value, sizex, sizey)
-	local press_off, press_on, hovered
+function CPStyle:CPToggle(label, label_off, label_on, value, sizex, sizey)
+	local press_off, press_on, hovered, press
 	ImGui.BeginGroup()
 	local posx, posy = ImGui.GetCursorPos()
 	CPStyle.styleBegin("FrameBorderSize", 1)
 	ImGui.BeginGroup()
 	if value then
-		CPStyle.colorBegin("Button", CPStyle.theme.CPToggleOffDisabled)
-		CPStyle.colorBegin("Text", CPStyle.theme.CPToggleOffDisabledText)
-		CPStyle.colorBegin("ButtonHovered", CPStyle.theme.CPToggleOffDisabledHovered)
-		CPStyle.colorBegin("ButtonActive", CPStyle.theme.CPToggleOffDisabled)
-		CPStyle.colorBegin("Border", CPStyle.theme.CPToggleOffDisabledBorder)
+		CPStyle.colorBegin("Button", self.theme.CPToggleOffDisabled)
+		CPStyle.colorBegin("Text", self.theme.CPToggleOffDisabledText)
+		CPStyle.colorBegin("ButtonHovered", self.theme.CPToggleOffDisabledHovered)
+		CPStyle.colorBegin("ButtonActive", self.theme.CPToggleOffDisabled)
+		CPStyle.colorBegin("Border", self.theme.CPToggleOffDisabledBorder)
 		press_off = ImGui.Button(label_off.."##cp", sizex/2-1,sizey)
 		ImGui.PopStyleColor(5)
 		ImGui.SameLine(sizex/2+1)
-		CPStyle.colorBegin("Button", CPStyle.theme.CPToggleOn)
-		CPStyle.colorBegin("Text", CPStyle.theme.CPToggleOnText)
-		CPStyle.colorBegin("ButtonHovered", CPStyle.theme.CPToggleOnHovered)
-		CPStyle.colorBegin("ButtonActive", CPStyle.theme.CPToggleOn)
-		CPStyle.colorBegin("Border", CPStyle.theme.CPToggleOnBorder)
+		CPStyle.colorBegin("Button", self.theme.CPToggleOn)
+		CPStyle.colorBegin("Text", self.theme.CPToggleOnText)
+		CPStyle.colorBegin("ButtonHovered", self.theme.CPToggleOnHovered)
+		CPStyle.colorBegin("ButtonActive", self.theme.CPToggleOn)
+		CPStyle.colorBegin("Border", self.theme.CPToggleOnBorder)
 		press_on = ImGui.Button(label_on.."##cp", sizex/2-1, sizey)
 		ImGui.PopStyleColor(5)
 
 	else
-		CPStyle.colorBegin("Button", CPStyle.theme.CPToggleOff)
-		CPStyle.colorBegin("Text", CPStyle.theme.CPToggleOffText)
-		CPStyle.colorBegin("ButtonHovered", CPStyle.theme.CPToggleOffHovered)
-		CPStyle.colorBegin("ButtonActive", CPStyle.theme.CPToggleOff)
-		CPStyle.colorBegin("Border", CPStyle.theme.CPToggleOffBorder)
+		CPStyle.colorBegin("Button", self.theme.CPToggleOff)
+		CPStyle.colorBegin("Text", self.theme.CPToggleOffText)
+		CPStyle.colorBegin("ButtonHovered", self.theme.CPToggleOffHovered)
+		CPStyle.colorBegin("ButtonActive", self.theme.CPToggleOff)
+		CPStyle.colorBegin("Border", self.theme.CPToggleOffBorder)
 		press_off = ImGui.Button(label_off.."##cp", sizex/2-1,sizey)
 		ImGui.PopStyleColor(5)
 		ImGui.SameLine(sizex/2+1)
-		CPStyle.colorBegin("Button", CPStyle.theme.CPToggleOnDisabled)
-		CPStyle.colorBegin("Text", CPStyle.theme.CPToggleOnDisabledText)
-		CPStyle.colorBegin("ButtonHovered", CPStyle.theme.CPToggleOnDisabledHovered)
-		CPStyle.colorBegin("ButtonActive", CPStyle.theme.CPToggleOnDisabled)
-		CPStyle.colorBegin("Border", CPStyle.theme.CPToggleOnDisabledBorder)
+		CPStyle.colorBegin("Button", self.theme.CPToggleOnDisabled)
+		CPStyle.colorBegin("Text", self.theme.CPToggleOnDisabledText)
+		CPStyle.colorBegin("ButtonHovered", self.theme.CPToggleOnDisabledHovered)
+		CPStyle.colorBegin("ButtonActive", self.theme.CPToggleOnDisabled)
+		CPStyle.colorBegin("Border", self.theme.CPToggleOnDisabledBorder)
 		press_on = ImGui.Button(label_on.."##cp", sizex/2-1, sizey)
 		ImGui.PopStyleColor(5)
 	end
@@ -276,28 +293,28 @@ function CPStyle.CPToggle(label, label_off, label_on, value, sizex, sizey)
 		ImGui.SetCursorPos(posx, posy)
 		ImGui.BeginGroup()
 		if value then
-			CPStyle.colorBegin("Border", CPStyle.theme.CPToggleOffDisabledBorderHovered)
-			CPStyle.colorBegin("Button", CPStyle.theme.CPToggleOffDisabledHovered)
-			CPStyle.colorBegin("Text", CPStyle.theme.CPToggleOffDisabledTextHovered)
+			CPStyle.colorBegin("Border", self.theme.CPToggleOffDisabledBorderHovered)
+			CPStyle.colorBegin("Button", self.theme.CPToggleOffDisabledHovered)
+			CPStyle.colorBegin("Text", self.theme.CPToggleOffDisabledTextHovered)
 			ImGui.Button(label_off.."##hovered", sizex/2-1,sizey)
 			ImGui.PopStyleColor(3)
 			ImGui.SameLine(sizex/2+1)
-			CPStyle.colorBegin("Border", CPStyle.theme.CPToggleOnBorderHovered)
-			CPStyle.colorBegin("Button", CPStyle.theme.CPToggleOnHovered)
-			CPStyle.colorBegin("Text", CPStyle.theme.CPToggleOnTextHovered)
+			CPStyle.colorBegin("Border", self.theme.CPToggleOnBorderHovered)
+			CPStyle.colorBegin("Button", self.theme.CPToggleOnHovered)
+			CPStyle.colorBegin("Text", self.theme.CPToggleOnTextHovered)
 			ImGui.Button(label_on.."##hovered", sizex/2-1, sizey)
 			ImGui.PopStyleColor(3)
 
 		else
-			CPStyle.colorBegin("Border", CPStyle.theme.CPToggleOffBorderHovered)
-			CPStyle.colorBegin("Button", CPStyle.theme.CPToggleOffHovered)
-			CPStyle.colorBegin("Text", CPStyle.theme.CPToggleOffTextHovered)
+			CPStyle.colorBegin("Border", self.theme.CPToggleOffBorderHovered)
+			CPStyle.colorBegin("Button", self.theme.CPToggleOffHovered)
+			CPStyle.colorBegin("Text", self.theme.CPToggleOffTextHovered)
 			ImGui.Button(label_off.."##hovered", sizex/2-1,sizey)
 			ImGui.PopStyleColor(3)
 			ImGui.SameLine(sizex/2+1)
-			CPStyle.colorBegin("Border", CPStyle.theme.CPToggleOnDisabledBorderHovered)
-			CPStyle.colorBegin("Button", CPStyle.theme.CPToggleOnDisabledHovered)
-			CPStyle.colorBegin("Text", CPStyle.theme.CPToggleOnDisabledTextHovered)
+			CPStyle.colorBegin("Border", self.theme.CPToggleOnDisabledBorderHovered)
+			CPStyle.colorBegin("Button", self.theme.CPToggleOnDisabledHovered)
+			CPStyle.colorBegin("Text", self.theme.CPToggleOnDisabledTextHovered)
 			ImGui.Button(label_on.."##hovered", sizex/2-1, sizey)
 			ImGui.PopStyleColor(3)
 		end
@@ -305,9 +322,9 @@ function CPStyle.CPToggle(label, label_off, label_on, value, sizex, sizey)
 	end
 	CPStyle.styleEnd(1)
   if label ~= nil and label ~= "" and label:match("^##") == nil then
-  	CPStyle.colorBegin("Button", CPStyle.theme.Hidden)
-  	CPStyle.colorBegin("ButtonHovered", CPStyle.theme.Hidden)
-  	CPStyle.colorBegin("ButtonActive", CPStyle.theme.Hidden)
+  	CPStyle.colorBegin("Button", self.theme.Hidden)
+  	CPStyle.colorBegin("ButtonHovered", self.theme.Hidden)
+  	CPStyle.colorBegin("ButtonActive", self.theme.Hidden)
   	CPStyle.styleBegin("FrameBorderSize", 0)
   	CPStyle.styleBegin("ButtonTextAlign", 0, 0.5)
   	ImGui.SameLine(sizex)
@@ -319,20 +336,20 @@ function CPStyle.CPToggle(label, label_off, label_on, value, sizex, sizey)
 	return value, press
 end
 
-function CPStyle.CPToolTip1Begin(sizex, sizey)
+function CPStyle:CPToolTip1Begin(sizex, sizey)
 	CPStyle.styleBegin("WindowRounding", 0)
 	CPStyle.styleBegin("PopupBorderSize", 0)
 	CPStyle.styleBegin("ChildBorderSize", 1)
-	CPStyle.colorBegin("PopupBg", CPStyle.theme.Hidden)
-	CPStyle.colorBegin("ChildBg", CPStyle.theme.CPFrameBg)
+	CPStyle.colorBegin("PopupBg", self.theme.Hidden)
+	CPStyle.colorBegin("ChildBg", self.theme.CPFrameBg)
 	ImGui.BeginTooltip()
-	CPStyle.CPRect("##SideRect", 8, sizey, CPStyle.theme.CPFrameBg, CPStyle.theme.CPFrameBorder, 1, 0)
+	CPStyle:CPRect("##SideRect", 8, sizey, self.theme.CPFrameBg, self.theme.CPFrameBorder, 1, 0)
 	ImGui.SameLine(20)
 	ImGui.BeginGroup()
 	ImGui.BeginChild("ToolTipMain", sizex, sizey, true)
 end
 
-function CPStyle.CPToolTip1End()
+function CPStyle:CPToolTip1End()
 	ImGui.EndChild()
 	ImGui.EndGroup()
 	ImGui.EndTooltip()
@@ -340,22 +357,22 @@ function CPStyle.CPToolTip1End()
 	CPStyle.styleEnd(3)
 end
 
-function CPStyle.CPToolTip2Begin(sizex, sizey)
+function CPStyle:CPToolTip2Begin(sizex, sizey)
 	CPStyle.styleBegin("WindowRounding", 0)
 	CPStyle.styleBegin("PopupBorderSize", 0)
 	CPStyle.styleBegin("ChildBorderSize", 1)
-	CPStyle.colorBegin("PopupBg", CPStyle.theme.Hidden)
-	CPStyle.colorBegin("ChildBg", CPStyle.theme.CPToolTip2Bg)
-	CPStyle.colorBegin("Border", CPStyle.theme.CPToolTip2Border)
-	CPStyle.colorBegin("Separator", CPStyle.theme.CPToolTip2Separator)
+	CPStyle.colorBegin("PopupBg", self.theme.Hidden)
+	CPStyle.colorBegin("ChildBg", self.theme.CPToolTip2Bg)
+	CPStyle.colorBegin("Border", self.theme.CPToolTip2Border)
+	CPStyle.colorBegin("Separator", self.theme.CPToolTip2Separator)
 	ImGui.BeginTooltip()
-	CPStyle.CPRect("##SideRect", 8, sizey, CPStyle.theme.CPToolTip2SideBg, CPStyle.theme.CPToolTip2Border, 1, 0)
+	CPStyle:CPRect("##SideRect", 8, sizey, self.theme.CPToolTip2SideBg, self.theme.CPToolTip2Border, 1, 0)
 	ImGui.SameLine(16)
 	ImGui.BeginGroup()
 	ImGui.BeginChild("ToolTip2Main", sizex, sizey, true)
 end
 
-function CPStyle.CPToolTip2End()
+function CPStyle:CPToolTip2End()
 	ImGui.EndChild()
 	ImGui.EndGroup()
 	ImGui.EndTooltip()
@@ -363,8 +380,8 @@ function CPStyle.CPToolTip2End()
 	CPStyle.styleEnd(3)
 end
 
-function CPStyle.CPRect(label, sizex, sizey, color, border_color, border_size, border_rounding, textalignx, textaligny)
-	if border_color == nil then border_color = CPStyle.theme.Border end
+function CPStyle:CPRect(label, sizex, sizey, color, border_color, border_size, border_rounding, textalignx, textaligny)
+	if border_color == nil then border_color = self.theme.Border end
 	if border_size == nil then border_size = 0 end
 	if border_rounding == nil then border_rounding = 0 end
 	if textalignx == nil then textalignx = 0.5 end
@@ -382,14 +399,14 @@ function CPStyle.CPRect(label, sizex, sizey, color, border_color, border_size, b
 	return press
 end
 
-function CPStyle.CPRect2(label, sizex, sizey, color)
+function CPStyle:CPRect2(label, sizex, sizey, color)
 	CPStyle.colorBegin("ChildBg", color)
 	ImGui.BeginChild(label, sizex, sizey)
   ImGui.EndChild()
 	CPStyle.colorEnd(1)
 end
 
-function CPStyle.CPDraw(name, image, scale)
+function CPStyle:CPDraw(name, image, scale)
   ImGui.BeginGroup()
   local basex, basey = ImGui.GetCursorPos()
   local pixelx = 1
@@ -400,7 +417,7 @@ function CPStyle.CPDraw(name, image, scale)
   for i = 1, totalPixel do
     ImGui.SetCursorPos(cursorx, cursory)
     if image.pixels[pixely][pixelx][4] ~= 0 then
-      CPStyle.CPRect2("##"..name..i, scale*1.2, scale*1.2, image.pixels[pixely][pixelx])
+      CPStyle:CPRect2("##"..name..i, scale*1.2, scale*1.2, image.pixels[pixely][pixelx])
     end
     pixelx = pixelx + 1
     if pixelx > image.width then pixelx = 1 pixely = pixely + 1 end
@@ -410,7 +427,7 @@ function CPStyle.CPDraw(name, image, scale)
   ImGui.EndGroup()
 end
 
-function CPStyle.CPDraw2(drawlist, posX, posY, image, scale)
+function CPStyle:CPDraw2(drawlist, posX, posY, image, scale)
   ImGui.BeginGroup()
   local pixelx = 1
   local pixely = 1
@@ -429,8 +446,8 @@ function CPStyle.CPDraw2(drawlist, posX, posY, image, scale)
   ImGui.EndGroup()
 end
 
-function CPStyle.loadPNG(imagepath)
-  local imgraw = png(imagepath)
+function CPStyle.loadPNG(image)
+  local imgraw = png(image)
   local img = {}
   local x = {}
   local y = {}
@@ -464,11 +481,11 @@ end
 
 function CPStyle.Input:Register()
 	if self.enable then
-		CPS.colorBegin("WindowBg", theme.Hidden)
-		CPS.colorBegin("FrameBg", theme.Hidden)
-		CPS.colorBegin("Text", theme.Hidden)
-		CPS.colorBegin("NavHighlight", theme.Hidden)
-		CPS.colorBegin("Border", theme.Hidden)
+		CPS.colorBegin("WindowBg", CPStyle.color.hidden)
+		CPS.colorBegin("FrameBg", CPStyle.color.hidden)
+		CPS.colorBegin("Text", CPStyle.color.hidden)
+		CPS.colorBegin("NavHighlight", CPStyle.color.hidden)
+		CPS.colorBegin("Border", CPStyle.color.hidden)
 		ImGui.Begin("##CPStyle.Input", ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoResize)
 		ImGui.SetKeyboardFocusHere()
 		self.keypress, self.pressed = ImGui.InputText("##keyboardinput", "", 100)

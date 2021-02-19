@@ -25,7 +25,7 @@
 -- SOFTWARE.
 
 registerForEvent("onInit", function()
-  CPS = require ("CPStyling")
+  CPS = GetMod("CPStyling"):New()
   print("CPStyling.lua loaded")
   theme = CPS.theme
   color = CPS.color
@@ -55,11 +55,11 @@ registerForEvent("onInit", function()
 	cpcb_pressed = {}
   print("Loading Images")
   images = {
-    { name = "Mushroom", scale = 5, data = CPS.loadPNG("img/foxgirl.png")},
-    { name = "Fox Girl", scale = 5, data = CPS.loadPNG("img/mushroom.png")},
-    { name = "Lucario", scale = 5, data = CPS.loadPNG("img/lucario.png")},
-    { name = "Ghost in the shell", scale = 2, data = CPS.loadPNG("img/ghost_in_shell.png")},
-    { name = "Cyberpunk 2077", scale = 1, data = CPS.loadPNG("img/cyberpunk.png")}
+    { name = "Mushroom", scale = 5, data = CPS.loadPNG(io.open("img/foxgirl.png", "rb"))},
+    { name = "Fox Girl", scale = 5, data = CPS.loadPNG(io.open("img/mushroom.png", "rb"))},
+    { name = "Lucario", scale = 5, data = CPS.loadPNG(io.open("img/lucario.png", "rb"))},
+    { name = "Ghost in the shell", scale = 2, data = CPS.loadPNG(io.open("img/ghost_in_shell.png", "rb"))},
+    { name = "Cyberpunk 2077", scale = 1, data = CPS.loadPNG(io.open("img/cyberpunk.png", "rb"))}
   }
   print("Images Loaded")
   image = images[1]
@@ -91,7 +91,7 @@ end)
 
 registerForEvent("onDraw", function()
 	if draw then
-		CPS.setThemeBegin()
+		CPS:setThemeBegin()
 		draw = ImGui.Begin("CPStyling.lua Demo", true, ImGuiWindowFlags.MenuBar | ImGuiWindowFlags.NoResize)
 		ImGui.SetWindowFontScale(1.0)
 		ImGui.SetWindowPos(wWidth/2-250, wHeight/2-400, ImGuiCond.FirstUseEver)
@@ -139,14 +139,14 @@ registerForEvent("onDraw", function()
 				ImGui.Spacing()
 -- CPS Button
 				ImGui.Text("ImGui Button:") ImGui.SameLine(256) ImGui.Text("CPS Button:")
-				btn1 = ImGui.Button("Set", 240, 30) ImGui.SameLine() cpbtn1 = CPS.CPButton("Reset", 240, 30)
+				btn1 = ImGui.Button("Set", 240, 30) ImGui.SameLine() cpbtn1 = CPS:CPButton("Reset", 240, 30)
 
 -- CPS Toggle
 				ImGui.Dummy(0,8)
 				ImGui.Text("CPS Toggles:")
 				for i in pairs(cpcb_value) do
 					ImGui.PushID(i)
-					cpcb_value[i], cpcb_pressed[i] = CPS.CPToggle("CPToggles"..i.." value: "..tostring(cpcb_value[i]), "OFF", "ON", cpcb_value[i], 240, 0)
+					cpcb_value[i], cpcb_pressed[i] = CPS:CPToggle("CPToggles"..i.." value: "..tostring(cpcb_value[i]), "OFF", "ON", cpcb_value[i], 240, 0)
 					ImGui.PopID()
           ImGui.Spacing()
 				end
@@ -160,7 +160,7 @@ registerForEvent("onDraw", function()
 				ImGui.Button("Custom ToolTip2", 240, 30)
 				tab1hov2 = ImGui.IsItemHovered()
 				if tab1hov then
-					CPS.CPToolTip1Begin(260, 220)
+					CPS:CPToolTip1Begin(260, 220)
 					ImGui.TextColored(0.79, 0.40, 0.29, 1, "SIDE JOB")
 					ImGui.Spacing()
 					CPS.colorBegin("Text", "00fdc4")
@@ -174,16 +174,16 @@ registerForEvent("onDraw", function()
 					ImGui.Separator()
 					ImGui.Spacing()
 					ImGui.Indent(10)
-					CPS.CPRect("##circle1", 18, 26, "5df6ff", nil, 0, 13)
+					CPS:CPRect("##circle1", 18, 26, "5df6ff", nil, 0, 13)
 					ImGui.SameLine()
 					ImGui.TextColored(0.36, 0.96, 1, 1, "TRACK JOB")
-					CPS.CPRect("##circle2", 18, 26, "5df6ff", nil, 0, 13)
+					CPS:CPRect("##circle2", 18, 26, "5df6ff", nil, 0, 13)
 					ImGui.SameLine()
 					ImGui.TextColored(0.36, 0.96, 1, 1, "ZOOM IN")
-					CPS.CPToolTip1End()
+					CPS:CPToolTip1End()
 				end
 				if tab1hov2 then
-					CPS.CPToolTip2Begin(340, 168)
+					CPS:CPToolTip2Begin(340, 168)
 					ImGui.TextColored(0.33, 0.86, 0.89, 1, "ASSAULT IN PROGRESS")
 					ImGui.Spacing()
 					ImGui.Separator()
@@ -197,10 +197,10 @@ registerForEvent("onDraw", function()
 					ImGui.SetWindowFontScale(1.5)
 					CPS.colorBegin("Text", "5ef5ff")
           CPS.styleBegin("FramePadding", 0, 0)
-					CPS.CPRect("NCPD", 100, 35, {"1d3941",0.6}, "3e8c94", 2, 2)
+					CPS:CPRect("NCPD", 100, 35, {"1d3941",0.6}, "3e8c94", 2, 2)
           CPS.styleEnd()
 					ImGui.SetCursorPosY(ImGui.GetCursorPosY()-8)
-					CPS.CPRect("##NCPD2", 100, 15, {"3e8c94",0.9}, nil , 0, 50)
+					CPS:CPRect("##NCPD2", 100, 15, {"3e8c94",0.9}, nil , 0, 50)
 					ImGui.EndChild()
 					ImGui.SetCursorPosY(ImGui.GetCursorPosY()-6)
 					ImGui.BeginChild("NCPDscript", 100, 30)
@@ -212,24 +212,24 @@ registerForEvent("onDraw", function()
 					ImGui.EndGroup()
 					ImGui.SameLine()
 					ImGui.TextColored(0.68, 0.54, 0.55, 1, "DANGER: VERY LOW")
-					CPS.CPToolTip2End()
+					CPS:CPToolTip2End()
 				end
 
 -- CPRect()
 				ImGui.Dummy(0,8)
 				ImGui.Text("CPRect():")
-				CPS.CPRect("##Recdemo1", 50, 50 , color.blue, { 1, 0, 0 ,1 }, 2, 0)
+				CPS:CPRect("##Recdemo1", 50, 50 , color.blue, { 1, 0, 0 ,1 }, 2, 0)
 				ImGui.SameLine()
-				CPS.CPRect("##Recdemo2", 50, 30 , { 1, 1, 0 , 1}, nil , 0, 10)
+				CPS:CPRect("##Recdemo2", 50, 30 , { 1, 1, 0 , 1}, nil , 0, 10)
 				ImGui.SameLine()
-				CPS.CPRect("##Recdemo3", 50, 50 , { 0, 1, 1 , 0.5}, nil , 0, 25)
+				CPS:CPRect("##Recdemo3", 50, 50 , { 0, 1, 1 , 0.5}, nil , 0, 25)
 				ImGui.SameLine()
-				CPS.CPRect("Rect4##Recdemo4", 80, 50 , { 0, 0, 0 , 0}, {1,1,1,1} , 5, 80)
+				CPS:CPRect("Rect4##Recdemo4", 80, 50 , { 0, 0, 0 , 0}, {1,1,1,1} , 5, 80)
 
 -- CPDraw Controls
         ImGui.Dummy(0,8)
         ImGui.Text("CPDraw():")
-        drawPNGViewer, cpcbDraw = CPS.CPToggle("Show PNG Viewer", "OFF", "ON", drawPNGViewer, 240, 0)
+        drawPNGViewer, cpcbDraw = CPS:CPToggle("Show PNG Viewer", "OFF", "ON", drawPNGViewer, 240, 0)
         if drawPNGViewer then
           ImGui.PushItemWidth(240)
           DrawSel, cbDraw = ImGui.Combo("Select PNG", DrawSel, { "Fox Girl", "Mushroom", "Lucario", "Ghost in a Shell", "Cyberpunk 2077" }, 5, 5)
@@ -277,7 +277,7 @@ registerForEvent("onDraw", function()
 				ImGui.EndTabItem()
 			end
 			if ImGui.BeginTabItem("setFrameThemeBegin()") then
-				CPS.setFrameThemeBegin()
+				CPS:setFrameThemeBegin()
 				ImGui.PushItemWidth(260)
 				ImGui.InputText("Textbox##2", "Lorem ipsum dolor", 100, ImGuiInputTextFlags.AutoSelectAll)
 				ImGui.InputTextWithHint("Textbox with hint##2", "Password...", "", 10, ImGuiInputTextFlags.Password)
@@ -300,7 +300,7 @@ registerForEvent("onDraw", function()
         col, used = ImGui.ColorPicker4("ColorPicker4", col)
 				ImGui.PopItemWidth()
 
-				CPS.setFrameThemeEnd()
+				CPS:setFrameThemeEnd()
 				ImGui.EndTabItem()
 			end
 			CPS.styleEnd(1)
@@ -309,7 +309,7 @@ registerForEvent("onDraw", function()
 
 		ImGui.End()
 
-		CPS.setThemeEnd()
+		CPS:setThemeEnd()
 	end
   if drawPNGViewer then
     CPS.styleBegin("WindowPadding", 0, 0)
@@ -319,7 +319,7 @@ registerForEvent("onDraw", function()
     ImGui.Begin("PNG Viewer", true, ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoResize)
     drawSizeX, drawSizey = ImGui.GetWindowSize()
     ImGui.SetWindowPos(winx+505, winy+ 800 - drawSizey)
-    CPS.CPDraw(image.name, image.data, image.scale)
+    CPS:CPDraw(image.name, image.data, image.scale)
     ImGui.End()
     CPS.colorEnd(1)
     CPS.styleEnd(3)

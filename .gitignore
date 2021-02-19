@@ -1,8 +1,8 @@
 /cpc.lua
 /demo.lua
-/init.lua
 /init.lua_disabled
 /img/
 /cp_styling*.log
 /db.sqlite3
 /.github
+/.vscode
