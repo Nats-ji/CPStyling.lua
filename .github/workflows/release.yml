@@ -10,26 +10,36 @@ jobs:
       - uses: actions/checkout@v2
       - name: Set env
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-      - name: Copy files
+      
+      - name: Prepare release
         run: |
-          mkdir -p ./build/release-main/ ./build/release-demo/ ./build/release/
-          cp LICENSE ./CPStyling/
-          cp LICENSE ./demo/
-          rm ./CPStyling/png-lua/README.md
-          mv ./CPStyling/ ./build/release-main/CPStyling/
-          mv ./demo/ ./build/release-demo/demo/
+          mkdir -p ./build/cps/bin/x64/plugins/cyber_engine_tweaks/mods/ ./build/demo/bin/x64/plugins/cyber_engine_tweaks/mods/ ./build/release/
+          rm ./png-lua/README.md
+          cp LICENSE ./demo/demo1/
+          cp LICENSE ./demo/demo2/
+      
+      - name: Copy files for CPStyling
+        run: |
+          rsync -a ./ ./build/cps/bin/x64/plugins/cyber_engine_tweaks/mods/CPStyling/ --exclude={.git/,build/,.image/,demo/,.gitignore,.github/,README.md}
+          
+          
+      - name: Copy files for Demos
+        run: |
+          rsync -a ./ ./build/demo/bin/x64/plugins/cyber_engine_tweaks/mods/CPStyling/ --exclude={.git/,build/,.image/,demo/,.gitignore,.github/,README.md}
+          rsync -a ./demo/ ./build/demo/bin/x64/plugins/cyber_engine_tweaks/mods/ --exclude themes/
+          rsync -a ./demo/themes/ ./build/demo/bin/x64/plugins/cyber_engine_tweaks/mods/CPStyling/themes/
 
       - name: Zip Release
         uses: TheDoctor0/zip-release@0.4.1
         with:
           filename: ../release/CPStyling_${{ env.RELEASE_VERSION }}.zip
-          directory: ./build/release-main/
+          directory: ./build/cps/
 
       - name: Zip Demo
         uses: TheDoctor0/zip-release@0.4.1
         with:
           filename: ../release/demo_${{ env.RELEASE_VERSION }}.zip
-          directory: ./build/release-demo/
+          directory: ./build/demo/
 
       - name: Upload Artifacts
         uses: ncipollo/release-action@v1
