@@ -25,13 +25,11 @@
 -- SOFTWARE.
 
 local CPStyle = {}
-local currentFilePath = ""
--- CPStyle.theme = require(currentFilePath.."theme")
-local styles = require(currentFilePath.."styles")
+local styles = require("modules/cpstyling/styles")
 local ImGuiStyleNames = styles.ImGuiStyleNames
 CPStyle.color = styles.color
 
-local png = require(currentFilePath.."png-lua/png")
+local png = require("modules/png-lua/png")
 
 local function ToImGuiStyleName(style, which)
 	if which == "Col" then
@@ -59,7 +57,7 @@ local function hex2rgb(hex)
 end
 
 local function loadTheme(theme)
-	local chunk = loadfile(currentFilePath.."themes/"..theme..".lua") -- Need to convert to json
+	local chunk = loadfile("themes/"..theme..".lua") -- Need to convert to json
 	return chunk()
 end
 
