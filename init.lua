@@ -464,11 +464,6 @@ function CPStyle.loadPNG(image)
   return img
 end
 
-function CPStyle.fileExists(filename)
-   local f=io.open(filename,"r")
-   if (f~=nil) then io.close(f) return true else return false end
-end
-
 CPStyle.Input = { enable = false }
 
 function CPStyle.Input:Enable(state)
