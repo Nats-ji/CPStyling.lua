@@ -260,14 +260,14 @@ registerForEvent("onDraw", function()
 				ImGui.SliderFloat("Slider float", 1.00000, -10, 10, "%.5fx")
 				ImGui.DragFloat("Drag float##2", 1.2354, 0.01, -10, 10, "%.5f")
 				ImGui.Combo("Combo box", 2, { "Option 1 ", "Option 2", "Option 3", "Option 4", "Option 5" }, 5, 3)
-				if ImGui.ListBoxHeader("ListBox", 5) then
+				if ImGui.BeginListBox("ListBox") then
 					ImGui.SetWindowFontScale(1.0)
 					ImGui.Selectable("Selectable1", false)
 					ImGui.Selectable("Selectable2", false)
 					ImGui.Selectable("Selectable3", true)
 					ImGui.Selectable("Selectable4", false)
 					ImGui.Selectable("Selectable5", false)
-					ImGui.ListBoxFooter()
+					ImGui.EndListBox()
 				end
 				ImGui.Checkbox("Checkbox##1", true) ImGui.SameLine() ImGui.Checkbox("Checkbox##2", false)
 				ImGui.Spacing()
@@ -285,14 +285,14 @@ registerForEvent("onDraw", function()
 				ImGui.SliderFloat("Slider float##2", 1.00000, -10, 10, "%.5fx")
 				ImGui.DragFloat("Drag float##2", 1.2354, 0.01, -10, 10, "%.5f")
 				ImGui.Combo("Combo box##2", 2, { "Option 1 ", "Option 2", "Option 3", "Option 4", "Option 5" }, 5, 3)
-				if ImGui.ListBoxHeader("ListBox##2", 5) then
+				if ImGui.BeginListBox("ListBox##2") then
 					ImGui.SetWindowFontScale(1.0)
 					ImGui.Selectable("Selectable1##2", false)
 					ImGui.Selectable("Selectable2##2", false)
 					ImGui.Selectable("Selectable3##2", true)
 					ImGui.Selectable("Selectable4##2", false)
 					ImGui.Selectable("Selectable5##2", false)
-					ImGui.ListBoxFooter()
+					ImGui.EndListBox()
 				end
 				ImGui.Checkbox("Checkbox##3", true) ImGui.SameLine() ImGui.Checkbox("Checkbox##4", false)
 				ImGui.Spacing()
