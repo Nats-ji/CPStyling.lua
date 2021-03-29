@@ -481,7 +481,7 @@ function CPStyle.Input:Register()
 		CPS.colorBegin("Text", CPStyle.color.hidden)
 		CPS.colorBegin("NavHighlight", CPStyle.color.hidden)
 		CPS.colorBegin("Border", CPStyle.color.hidden)
-		ImGui.Begin("##CPStyle.Input", ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoResize)
+		ImGui.Begin("##CPStyle.Input", ImGuiWindowFlags.NoTitleBar + ImGuiWindowFlags.NoResize)
 		ImGui.SetKeyboardFocusHere()
 		self.keypress, self.pressed = ImGui.InputText("##keyboardinput", "", 100)
 		if self.pressed then ImGui.SetKeyboardFocusHere() end
