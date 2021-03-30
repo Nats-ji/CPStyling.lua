@@ -92,7 +92,7 @@ end)
 registerForEvent("onDraw", function()
 	if draw then
 		CPS:setThemeBegin()
-		draw = ImGui.Begin("CPStyling.lua Demo2", true, ImGuiWindowFlags.MenuBar | ImGuiWindowFlags.NoResize)
+		draw = ImGui.Begin("CPStyling.lua Demo2", true, bit32.bor(ImGuiWindowFlags.MenuBar, ImGuiWindowFlags.NoResize))
 		ImGui.SetWindowFontScale(1.0)
 		ImGui.SetWindowPos(wWidth/2-250, wHeight/2-400, ImGuiCond.FirstUseEver)
 		ImGui.SetWindowSize(505, 800)
@@ -242,7 +242,7 @@ registerForEvent("onDraw", function()
           ImGui.OpenPopup("Delete?")
         end
 
-        if ImGui.BeginPopupModal("Delete?", true, ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoMove) then
+        if ImGui.BeginPopupModal("Delete?", true, bit32.bor(ImGuiWindowFlags.AlwaysAutoResize, ImGuiWindowFlags.NoMove)) then
           local x, y = ImGui.GetWindowSize()
           ImGui.SetWindowPos((wWidth-x)*0.5, (wHeight-y)*0.5)
           ImGui.Text("This is a popup")
@@ -316,7 +316,7 @@ registerForEvent("onDraw", function()
     CPS.styleBegin("WindowBorderSize", 0)
     CPS.styleBegin("WindowRounding", 0)
     CPS.colorBegin("WindowBg", theme.Hidden)
-    ImGui.Begin("PNG Viewer2", true, ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoResize)
+    ImGui.Begin("PNG Viewer2", true, bit32.bor(ImGuiWindowFlags.NoTitleBar, ImGuiWindowFlags.NoMove, ImGuiWindowFlags.NoScrollbar, ImGuiWindowFlags.AlwaysAutoResize, ImGuiWindowFlags.NoResize))
     drawSizeX, drawSizey = ImGui.GetWindowSize()
     ImGui.SetWindowPos(winx+505, winy+ 800 - drawSizey)
     CPS:CPDraw(image.name, image.data, image.scale)
