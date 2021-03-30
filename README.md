@@ -29,7 +29,7 @@ Please make PR if you want to fix bugs or make improvements
 ### Projects using this library
 | CP77-TetrisArcade [[Nexus]](https://www.nexusmods.com/cyberpunk2077/mods/1118) \| [[Github]](https://github.com/justarandomguyintheinternet/cp77_arcade_tetris) | CP77-Braindance Protocol [[Nexus]](https://www.nexusmods.com/cyberpunk2077/mods/616) \| [[Github]](https://github.com/WolvenKit/BraindanceProtocol) |
 | ------------------ | ------------------ |
-| ![Imgur](https://i.imgur.com/zrhar0j.png) | ![Imgur](https://i.imgur.com/bVqLG7c.png) |
+| ![Imgur](https://mod.3dmgame.com/ueditor/php/upload/image/20210208/1612745560238054.gif) | ![Imgur](https://camo.githubusercontent.com/6bfc38ead7e51dfffcc7a2c3c617ae7e88ce9f2574784f8b8b477965e0263f58/68747470733a2f2f692e696d6775722e636f6d2f6f4569344a72562e676966) |
 
 ### Custom theme
 1. To use custom theme, you need to put your mod's name in `GetMod("CPStyling"):New("your_mod_name")`
