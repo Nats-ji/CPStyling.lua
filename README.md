@@ -28,8 +28,11 @@ Please make PR if you want to fix bugs or make improvements
 
 ### Projects using this library
 | CP77-TetrisArcade [[Nexus]](https://www.nexusmods.com/cyberpunk2077/mods/1118) \| [[Github]](https://github.com/justarandomguyintheinternet/cp77_arcade_tetris) | CP77-Braindance Protocol [[Nexus]](https://www.nexusmods.com/cyberpunk2077/mods/616) \| [[Github]](https://github.com/WolvenKit/BraindanceProtocol) |
-| ------------------ | ------------------ |
-| ![Imgur](https://mod.3dmgame.com/ueditor/php/upload/image/20210208/1612745560238054.gif) | ![Imgur](https://camo.githubusercontent.com/6bfc38ead7e51dfffcc7a2c3c617ae7e88ce9f2574784f8b8b477965e0263f58/68747470733a2f2f692e696d6775722e636f6d2f6f4569344a72562e676966) |
+| :------------------: | :------------------: |
+| ![Imgur](https://i.imgur.com/cfmMBmM.gif) | ![Imgur](https://i.imgur.com/J7WA5tF.gif) |
+| **Cyberpunk Advanced Settings Tool [[Nexus]](https://www.nexusmods.com/cyberpunk2077/mods/1502) \| [[Github]](https://github.com/Nats-ji/CP77-Advanced-Settings)** | **Character Preset Loader [[Nexus]](https://www.nexusmods.com/cyberpunk2077/mods/1597) \| [[Github]](https://github.com/Nats-ji/CP77-Character-Preset-Loader)** |
+| ![Imgur](https://i.imgur.com/Em9ujhU.gif) | ![Imgur](https://i.imgur.com/c83jOnv.gif) |
+
 
 ### Custom theme
 1. To use custom theme, you need to put your mod's name in `GetMod("CPStyling"):New("your_mod_name")`
