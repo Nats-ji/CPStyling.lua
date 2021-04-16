@@ -68,6 +68,10 @@ local function trimLabel(label)
 	return trimed_label
 end
 
+local function rounding(num)
+	return math.floor(num + 0.5)
+end
+
 function CPStyle:New(mod_name)
 	local o = {}
 	if mod_name then
@@ -203,6 +207,21 @@ function CPStyle:setFrameThemeEnd()
 	CPStyle.colorEnd(7)
 end
 
+-- Invisible Button (workaround for getting framepadding value)
+function CPStyle:InvisibleButton(label, sizex, sizey)
+	if sizex == nil or sizey == nil then
+		sizex = 0
+		sizey = 0
+	end
+	CPStyle.colorBegin("Button", self.color.hidden)
+	CPStyle.colorBegin("ButtonHovered", self.color.hidden)
+	CPStyle.colorBegin("ButtonActive", self.color.hidden)
+	CPStyle.colorBegin("Text", self.color.hidden)
+	local pressed = ImGui.Button(label, sizex, sizey)
+	CPStyle.colorEnd(4)
+	return pressed
+end
+
 -- CPButton
 
 function CPStyle:CPButton(label, sizex, sizey)
@@ -212,21 +231,10 @@ function CPStyle:CPButton(label, sizex, sizey)
 	local scrollX = ImGui.GetScrollX()
   local scrollY = ImGui.GetScrollY()
 
-	CPStyle.colorBegin("Button", self.color.hidden)
-	CPStyle.colorBegin("ButtonHovered", self.color.hidden)
-	CPStyle.colorBegin("ButtonActive", self.color.hidden)
-	CPStyle.colorBegin("Text", self.color.hidden)
-	local pressed = false
-	if sizex == nil or sizey == nil then
-		pressed = ImGui.Button(label)
-	else
-		pressed = ImGui.Button(label, sizex, sizey)
-	end
-
+	local pressed = self:InvisibleButton(label, sizex, sizey)
 	local size_x, size_y = ImGui.GetItemRectSize()
 	local active = ImGui.IsItemActive()
   local hovered = ImGui.IsItemHovered()
-	CPStyle.colorEnd(4)
 
 	local color = {}
 	color.border = self.theme.CPButtonBorder
@@ -246,15 +254,16 @@ function CPStyle:CPButton(label, sizex, sizey)
 	local label_width, label_height = ImGui.CalcTextSize(label, true)
 	local label_x = (size_x - label_width) * 0.5 + p_minX
 	local label_y = (size_y - label_height) * 0.5 + p_minY
+	local corner_size = rounding(ImGui.GetFontSize() * 0.5)
 	-- draw background
-	ImGui.ImDrawListAddRectFilled(drawList, p_minX, p_minY, p_maxX - size_y * 0.3, p_maxY, ImGui.ColorConvertFloat4ToU32(color.background))
-	ImGui.ImDrawListAddRectFilled(drawList, p_minX, p_minY, p_maxX, p_maxY - size_y * 0.3, ImGui.ColorConvertFloat4ToU32(color.background))
-	ImGui.ImDrawListAddTriangleFilled(drawList, p_maxX - size_y * 0.32, p_maxY - size_y * 0.32, p_maxX, p_maxY - size_y * 0.32, p_maxX - size_y * 0.32, p_maxY, ImGui.ColorConvertFloat4ToU32(color.background))
+	ImGui.ImDrawListAddRectFilled(drawList, p_minX, p_minY, p_maxX - corner_size, p_maxY, ImGui.ColorConvertFloat4ToU32(color.background))
+	ImGui.ImDrawListAddRectFilled(drawList, p_minX, p_minY, p_maxX, p_maxY - corner_size, ImGui.ColorConvertFloat4ToU32(color.background))
+	ImGui.ImDrawListAddTriangleFilled(drawList, p_maxX - corner_size, p_maxY - corner_size, p_maxX, p_maxY - corner_size, p_maxX - corner_size, p_maxY, ImGui.ColorConvertFloat4ToU32(color.background))
 	-- draw border
 	ImGui.ImDrawListAddLine(drawList, p_minX, p_minY, p_maxX, p_minY, ImGui.ColorConvertFloat4ToU32(color.border))
-	ImGui.ImDrawListAddLine(drawList, p_maxX, p_minY, p_maxX, p_maxY - size_y * 0.3, ImGui.ColorConvertFloat4ToU32(color.border))
-	ImGui.ImDrawListAddLine(drawList, p_maxX, p_maxY - size_y * 0.3, p_maxX- size_y * 0.3, p_maxY, ImGui.ColorConvertFloat4ToU32(color.border))
-	ImGui.ImDrawListAddLine(drawList, p_maxX- size_y * 0.3, p_maxY, p_minX, p_maxY, ImGui.ColorConvertFloat4ToU32(color.border))
+	ImGui.ImDrawListAddLine(drawList, p_maxX, p_minY, p_maxX, p_maxY - corner_size, ImGui.ColorConvertFloat4ToU32(color.border))
+	ImGui.ImDrawListAddLine(drawList, p_maxX, p_maxY - corner_size, p_maxX- corner_size, p_maxY, ImGui.ColorConvertFloat4ToU32(color.border))
+	ImGui.ImDrawListAddLine(drawList, p_maxX- corner_size, p_maxY, p_minX, p_maxY, ImGui.ColorConvertFloat4ToU32(color.border))
 	ImGui.ImDrawListAddLine(drawList, p_minX, p_maxY, p_minX, p_minY, ImGui.ColorConvertFloat4ToU32(color.border))
 	-- draw text
 	ImGui.ImDrawListAddText(drawList, label_x, label_y, ImGui.ColorConvertFloat4ToU32(self.theme.CPButtonText), trimLabel(label))
@@ -274,22 +283,17 @@ function CPStyle:CPToggle(label, label_off, label_on, value, sizex, sizey)
 	ImGui.BeginGroup()
 
 	ImGui.BeginGroup()
-	CPStyle.colorBegin("Button", self.color.hidden)
-	CPStyle.colorBegin("ButtonHovered", self.color.hidden)
-	CPStyle.colorBegin("ButtonActive", self.color.hidden)
-	CPStyle.colorBegin("Text", self.color.hidden)
 	ImGui.SetCursorPos(cursorX, cursorY)
 
-	local btn_width = sizex/2 - 2
+	local btn_width = rounding(sizex/2 - 2)
 	local btn_height = sizey
 
-	pressed_off = ImGui.Button(label_off, btn_width, sizey)
+	pressed_off = self:InvisibleButton(label_off, btn_width, sizey)
 	if sizey == 0 then
 		btn_width, btn_height = ImGui.GetItemRectSize()
 	end
 	ImGui.SetCursorPos(cursorX + sizex/2 + 1, cursorY)
-	pressed_on = ImGui.Button(label_on, btn_width, sizey)
-	CPStyle.colorEnd(4)
+	pressed_on = self:InvisibleButton(label_on, btn_width, sizey)
 	ImGui.EndGroup()
 	local active = ImGui.IsItemActive()
 	local hovered = ImGui.IsItemHovered()
@@ -301,9 +305,9 @@ function CPStyle:CPToggle(label, label_off, label_on, value, sizex, sizey)
 
 	-- calc postion
 	local btn_off_posX = winX + cursorX - scrollX
-	local btn_on_posX = btn_off_posX + sizex/2 + 1
+	local btn_on_posX = rounding(btn_off_posX + sizex/2 + 1)
 	local btn_posY = winY + cursorY - scrollY
-	local corner_size = btn_height * 0.3
+	local corner_size = rounding(ImGui.GetFontSize() * 0.5)
 
 	local btn_off_pos = {
 		p1 = { x = btn_off_posX, y = btn_posY },
@@ -364,10 +368,10 @@ function CPStyle:CPToggle(label, label_off, label_on, value, sizex, sizey)
 	-- draw background
 	ImGui.ImDrawListAddRectFilled(drawList, btn_off_pos.p4.x, btn_off_pos.p1.y, btn_off_pos.p3.x, btn_off_pos.p3.y, ImGui.ColorConvertFloat4ToU32(color.btn_off_background))
 	ImGui.ImDrawListAddRectFilled(drawList, btn_off_pos.p1.x, btn_off_pos.p1.y, btn_off_pos.p4.x, btn_off_pos.p5.y, ImGui.ColorConvertFloat4ToU32(color.btn_off_background))
-	ImGui.ImDrawListAddTriangleFilled(drawList, btn_off_pos.p5.x-0.5, btn_off_pos.p5.y-0.5, btn_off_pos.p4.x+0.5, btn_off_pos.p5.y-0.5, btn_off_pos.p4.x+0.5, btn_off_pos.p4.y+0.5, ImGui.ColorConvertFloat4ToU32(color.btn_off_background))
+	ImGui.ImDrawListAddTriangleFilled(drawList, btn_off_pos.p5.x, btn_off_pos.p5.y, btn_off_pos.p4.x, btn_off_pos.p5.y, btn_off_pos.p4.x, btn_off_pos.p4.y, ImGui.ColorConvertFloat4ToU32(color.btn_off_background))
 	ImGui.ImDrawListAddRectFilled(drawList, btn_on_pos.p1.x, btn_on_pos.p1.y, btn_on_pos.p4.x, btn_on_pos.p4.y, ImGui.ColorConvertFloat4ToU32(color.btn_on_background))
 	ImGui.ImDrawListAddRectFilled(drawList, btn_on_pos.p4.x, btn_on_pos.p1.y, btn_on_pos.p3.x, btn_on_pos.p3.y, ImGui.ColorConvertFloat4ToU32(color.btn_on_background))
-	ImGui.ImDrawListAddTriangleFilled(drawList, btn_on_pos.p4.x-0.5, btn_on_pos.p3.y-0.5, btn_on_pos.p2.x+0.5, btn_on_pos.p3.y-0.5, btn_on_pos.p4.x-0.5, btn_on_pos.p4.y+0.5, ImGui.ColorConvertFloat4ToU32(color.btn_on_background))
+	ImGui.ImDrawListAddTriangleFilled(drawList, btn_on_pos.p4.x, btn_on_pos.p3.y, btn_on_pos.p2.x, btn_on_pos.p3.y, btn_on_pos.p4.x, btn_on_pos.p4.y, ImGui.ColorConvertFloat4ToU32(color.btn_on_background))
 	-- draw border
 	ImGui.ImDrawListAddLine(drawList, btn_off_pos.p1.x, btn_off_pos.p1.y, btn_off_pos.p2.x, btn_off_pos.p2.y, ImGui.ColorConvertFloat4ToU32(color.btn_off_border))
 	ImGui.ImDrawListAddLine(drawList, btn_off_pos.p2.x, btn_off_pos.p2.y, btn_off_pos.p3.x, btn_off_pos.p3.y, ImGui.ColorConvertFloat4ToU32(color.btn_off_border))
