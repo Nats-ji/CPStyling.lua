@@ -201,36 +201,61 @@ end
 -- CPButton
 
 function CPStyle:CPButton(label, sizex, sizey)
-	local press, hovered
-	ImGui.BeginGroup()
-	CPStyle.styleBegin("FrameBorderSize", 1)
-	CPStyle.colorBegin("Button", self.theme.CPButton)
-	CPStyle.colorBegin("ButtonHovered", self.theme.CPButtonHovered)
-	CPStyle.colorBegin("ButtonActive", self.theme.CPButtonActive)
-	CPStyle.colorBegin("Text", self.theme.CPButtonText)
-	CPStyle.colorBegin("Border", self.theme.CPButtonBorder)
+	local drawList = ImGui.GetWindowDrawList()
+	local winX, winY = ImGui.GetWindowPos()
+	local cursorX, cursorY = ImGui.GetCursorPos()
+	local scrollX = ImGui.GetScrollX()
+  local scrollY = ImGui.GetScrollY()
+
+	CPStyle.colorBegin("Button", self.color.hidden)
+	CPStyle.colorBegin("ButtonHovered", self.color.hidden)
+	CPStyle.colorBegin("ButtonActive", self.color.hidden)
+	CPStyle.colorBegin("Text", self.color.hidden)
+	local pressed = false
 	if sizex == nil or sizey == nil then
-		press = ImGui.Button(label)
+		pressed = ImGui.Button(label)
 	else
-		press = ImGui.Button(label, sizex, sizey)
+		pressed = ImGui.Button(label, sizex, sizey)
 	end
-	CPStyle.colorEnd(5)
-	hovered = ImGui.IsItemHovered()
-	if hovered then
-		ImGui.SameLine(0.0001)
-		CPStyle.colorBegin("Border", self.theme.CPButtonBorderHovered)
-		CPStyle.colorBegin("Text", self.theme.Hidden)
-		CPStyle.colorBegin("Button", self.theme.Hidden)
-		if sizex == nil or sizey == nil then
-			ImGui.Button(label.."##hovered")
-		else
-			ImGui.Button(label.."##hovered", sizex, sizey)
-		end
-		CPStyle.colorEnd(3)
+
+	local size_x, size_y = ImGui.GetItemRectSize()
+	local active = ImGui.IsItemActive()
+  local hovered = ImGui.IsItemHovered()
+	CPStyle.colorEnd(4)
+
+	local color = {}
+	if active then
+		color.border = self.theme.CPButtonBorderHovered
+		color.background = self.theme.CPButtonActive
+	elseif hovered then
+		color.border = self.theme.CPButtonBorderHovered
+		color.background = self.theme.CPButtonHovered
+	else
+		color.border = self.theme.CPButtonBorder
+		color.background = self.theme.CPButton
 	end
-	CPStyle.styleEnd(1)
-	ImGui.EndGroup()
-	return press
+
+	local p_minX = winX + cursorX - scrollX
+  local p_minY = winY + cursorY - scrollY
+	local p_maxX = p_minX + size_x
+	local p_maxY = p_minY + size_y
+	local label_width, label_height = ImGui.CalcTextSize(label, true)
+	local label_x = (size_x - label_width) * 0.5 + p_minX
+	local label_y = (size_y - label_height) * 0.5 + p_minY
+	local label_clean = string.gsub(label, "##.+", "")
+	-- draw background
+	ImGui.ImDrawListAddRectFilled(drawList, p_minX, p_minY, p_maxX - size_y * 0.3, p_maxY, ImGui.ColorConvertFloat4ToU32(color.background))
+	ImGui.ImDrawListAddRectFilled(drawList, p_minX, p_minY, p_maxX, p_maxY - size_y * 0.3, ImGui.ColorConvertFloat4ToU32(color.background))
+	ImGui.ImDrawListAddTriangleFilled(drawList, p_maxX - size_y * 0.32, p_maxY - size_y * 0.32, p_maxX, p_maxY - size_y * 0.32, p_maxX - size_y * 0.32, p_maxY, ImGui.ColorConvertFloat4ToU32(color.background))
+	-- draw border
+	ImGui.ImDrawListAddLine(drawList, p_minX, p_minY, p_maxX, p_minY, ImGui.ColorConvertFloat4ToU32(color.border))
+	ImGui.ImDrawListAddLine(drawList, p_maxX, p_minY, p_maxX, p_maxY - size_y * 0.3, ImGui.ColorConvertFloat4ToU32(color.border))
+	ImGui.ImDrawListAddLine(drawList, p_maxX, p_maxY - size_y * 0.3, p_maxX- size_y * 0.3, p_maxY, ImGui.ColorConvertFloat4ToU32(color.border))
+	ImGui.ImDrawListAddLine(drawList, p_maxX- size_y * 0.3, p_maxY, p_minX, p_maxY, ImGui.ColorConvertFloat4ToU32(color.border))
+	ImGui.ImDrawListAddLine(drawList, p_minX, p_maxY, p_minX, p_minY, ImGui.ColorConvertFloat4ToU32(color.border))
+	-- draw text
+	ImGui.ImDrawListAddText(drawList, label_x, label_y, ImGui.ColorConvertFloat4ToU32(self.theme.CPButtonText), label_clean)
+	return pressed
 end
 
 -- CPToggle
