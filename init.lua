@@ -63,6 +63,11 @@ local function loadTheme(theme)
 	return chunk()
 end
 
+local function trimLabel(label)
+	local trimed_label = string.gsub(label, "##.+", "")
+	return trimed_label
+end
+
 function CPStyle:New(mod_name)
 	local o = {}
 	if mod_name then
@@ -242,7 +247,6 @@ function CPStyle:CPButton(label, sizex, sizey)
 	local label_width, label_height = ImGui.CalcTextSize(label, true)
 	local label_x = (size_x - label_width) * 0.5 + p_minX
 	local label_y = (size_y - label_height) * 0.5 + p_minY
-	local label_clean = string.gsub(label, "##.+", "")
 	-- draw background
 	ImGui.ImDrawListAddRectFilled(drawList, p_minX, p_minY, p_maxX - size_y * 0.3, p_maxY, ImGui.ColorConvertFloat4ToU32(color.background))
 	ImGui.ImDrawListAddRectFilled(drawList, p_minX, p_minY, p_maxX, p_maxY - size_y * 0.3, ImGui.ColorConvertFloat4ToU32(color.background))
@@ -254,111 +258,143 @@ function CPStyle:CPButton(label, sizex, sizey)
 	ImGui.ImDrawListAddLine(drawList, p_maxX- size_y * 0.3, p_maxY, p_minX, p_maxY, ImGui.ColorConvertFloat4ToU32(color.border))
 	ImGui.ImDrawListAddLine(drawList, p_minX, p_maxY, p_minX, p_minY, ImGui.ColorConvertFloat4ToU32(color.border))
 	-- draw text
-	ImGui.ImDrawListAddText(drawList, label_x, label_y, ImGui.ColorConvertFloat4ToU32(self.theme.CPButtonText), label_clean)
+	ImGui.ImDrawListAddText(drawList, label_x, label_y, ImGui.ColorConvertFloat4ToU32(self.theme.CPButtonText), trimLabel(label))
 	return pressed
 end
 
 -- CPToggle
-
 function CPStyle:CPToggle(label, label_off, label_on, value, sizex, sizey)
-	local press_off, press_on, hovered, press
+	local drawList = ImGui.GetWindowDrawList()
+	local winX, winY = ImGui.GetWindowPos()
+	local cursorX, cursorY = ImGui.GetCursorPos()
+	local scrollX = ImGui.GetScrollX()
+  local scrollY = ImGui.GetScrollY()
+	local pressed_off, pressed_on, pressed
+
+	-- insert btn
 	ImGui.BeginGroup()
-	local posx, posy = ImGui.GetCursorPos()
-	CPStyle.styleBegin("FrameBorderSize", 1)
+
 	ImGui.BeginGroup()
+	CPStyle.colorBegin("Button", self.color.hidden)
+	CPStyle.colorBegin("ButtonHovered", self.color.hidden)
+	CPStyle.colorBegin("ButtonActive", self.color.hidden)
+	CPStyle.colorBegin("Text", self.color.hidden)
+	ImGui.SetCursorPos(cursorX, cursorY)
+
+	local btn_width = sizex/2 - 2
+	local btn_height = sizey
+
+	pressed_off = ImGui.Button(label_off, btn_width, sizey)
+	if sizey == 0 then
+		btn_width, btn_height = ImGui.GetItemRectSize()
+	end
+	ImGui.SetCursorPos(cursorX + sizex/2 + 1, cursorY)
+	pressed_on = ImGui.Button(label_on, btn_width, sizey)
+	CPStyle.colorEnd(4)
+	ImGui.EndGroup()
+	local active = ImGui.IsItemActive()
+	local hovered = ImGui.IsItemHovered()
+
+	ImGui.SetCursorPos(cursorX + sizex + 4, cursorY)
+	ImGui.AlignTextToFramePadding()
+	ImGui.Text(trimLabel(label))
+	ImGui.EndGroup()
+
+	-- calc postion
+	local btn_off_posX = winX + cursorX - scrollX
+	local btn_on_posX = btn_off_posX + sizex/2 + 1
+	local btn_posY = winY + cursorY - scrollY
+	local corner_size = btn_height * 0.3
+
+	local btn_off_pos = {
+		p1 = { x = btn_off_posX, y = btn_posY },
+		p2 = { x = btn_off_posX + btn_width, y = btn_posY },
+		p3 = { x = btn_off_posX + btn_width, y = btn_posY + btn_height },
+		p4 = { x = btn_off_posX + corner_size, y = btn_posY + btn_height },
+		p5 = { x = btn_off_posX, y = btn_posY + btn_height - corner_size }
+	}
+	local btn_on_pos = {
+		p1 = { x = btn_on_posX, y = btn_posY },
+		p2 = { x = btn_on_posX + btn_width, y = btn_posY },
+		p3 = { x = btn_on_posX + btn_width, y = btn_posY + btn_height - corner_size },
+		p4 = { x = btn_on_posX + btn_width - corner_size, y = btn_posY + btn_height },
+		p5 = { x = btn_on_posX, y = btn_posY + btn_height }
+	}
+	local label_off_width, label_height = ImGui.CalcTextSize(label_off, true)
+	local label_on_width = ImGui.CalcTextSize(label_on, true)
+	local label_off_x = (btn_width  - label_off_width) * 0.5 + btn_off_posX
+	local label_on_x = (btn_width - label_on_width) * 0.5 + btn_on_posX
+	local label_y = (btn_height - label_height) * 0.5 + btn_posY
+
+	-- color
+	local color = {}
 	if value then
-		CPStyle.colorBegin("Button", self.theme.CPToggleOffDisabled)
-		CPStyle.colorBegin("Text", self.theme.CPToggleOffDisabledText)
-		CPStyle.colorBegin("ButtonHovered", self.theme.CPToggleOffDisabledHovered)
-		CPStyle.colorBegin("ButtonActive", self.theme.CPToggleOffDisabled)
-		CPStyle.colorBegin("Border", self.theme.CPToggleOffDisabledBorder)
-		press_off = ImGui.Button(label_off.."##cp", sizex/2-1,sizey)
-		ImGui.PopStyleColor(5)
-		ImGui.SameLine(sizex/2+1)
-		CPStyle.colorBegin("Button", self.theme.CPToggleOn)
-		CPStyle.colorBegin("Text", self.theme.CPToggleOnText)
-		CPStyle.colorBegin("ButtonHovered", self.theme.CPToggleOnHovered)
-		CPStyle.colorBegin("ButtonActive", self.theme.CPToggleOn)
-		CPStyle.colorBegin("Border", self.theme.CPToggleOnBorder)
-		press_on = ImGui.Button(label_on.."##cp", sizex/2-1, sizey)
-		ImGui.PopStyleColor(5)
-
-	else
-		CPStyle.colorBegin("Button", self.theme.CPToggleOff)
-		CPStyle.colorBegin("Text", self.theme.CPToggleOffText)
-		CPStyle.colorBegin("ButtonHovered", self.theme.CPToggleOffHovered)
-		CPStyle.colorBegin("ButtonActive", self.theme.CPToggleOff)
-		CPStyle.colorBegin("Border", self.theme.CPToggleOffBorder)
-		press_off = ImGui.Button(label_off.."##cp", sizex/2-1,sizey)
-		ImGui.PopStyleColor(5)
-		ImGui.SameLine(sizex/2+1)
-		CPStyle.colorBegin("Button", self.theme.CPToggleOnDisabled)
-		CPStyle.colorBegin("Text", self.theme.CPToggleOnDisabledText)
-		CPStyle.colorBegin("ButtonHovered", self.theme.CPToggleOnDisabledHovered)
-		CPStyle.colorBegin("ButtonActive", self.theme.CPToggleOnDisabled)
-		CPStyle.colorBegin("Border", self.theme.CPToggleOnDisabledBorder)
-		press_on = ImGui.Button(label_on.."##cp", sizex/2-1, sizey)
-		ImGui.PopStyleColor(5)
-	end
-
-	if press_off and value == false then
-		value = true
-	elseif press_off and value == true then
-		value = false
-	elseif press_on and value == true then
-		value = false
-	elseif press_on and value == false then
-		value = true
-	end
-	if press_off or press_on then press = true else press = false end
-	ImGui.EndGroup()
-	hovered = ImGui.IsItemHovered()
-
-	if hovered then --show hovered border color and text color
-		ImGui.SetCursorPos(posx, posy)
-		ImGui.BeginGroup()
-		if value then
-			CPStyle.colorBegin("Border", self.theme.CPToggleOffDisabledBorderHovered)
-			CPStyle.colorBegin("Button", self.theme.CPToggleOffDisabledHovered)
-			CPStyle.colorBegin("Text", self.theme.CPToggleOffDisabledTextHovered)
-			ImGui.Button(label_off.."##hovered", sizex/2-1,sizey)
-			ImGui.PopStyleColor(3)
-			ImGui.SameLine(sizex/2+1)
-			CPStyle.colorBegin("Border", self.theme.CPToggleOnBorderHovered)
-			CPStyle.colorBegin("Button", self.theme.CPToggleOnHovered)
-			CPStyle.colorBegin("Text", self.theme.CPToggleOnTextHovered)
-			ImGui.Button(label_on.."##hovered", sizex/2-1, sizey)
-			ImGui.PopStyleColor(3)
-
+		if not hovered or active then
+			color.btn_off_background = self.theme.CPToggleOffDisabled
+			color.btn_off_border = self.theme.CPToggleOffDisabledBorder
+			color.btn_off_text = self.theme.CPToggleOffDisabledText
+			color.btn_on_background = self.theme.CPToggleOn
+			color.btn_on_border = self.theme.CPToggleOnBorder
+			color.btn_on_text = self.theme.CPToggleOnText
 		else
-			CPStyle.colorBegin("Border", self.theme.CPToggleOffBorderHovered)
-			CPStyle.colorBegin("Button", self.theme.CPToggleOffHovered)
-			CPStyle.colorBegin("Text", self.theme.CPToggleOffTextHovered)
-			ImGui.Button(label_off.."##hovered", sizex/2-1,sizey)
-			ImGui.PopStyleColor(3)
-			ImGui.SameLine(sizex/2+1)
-			CPStyle.colorBegin("Border", self.theme.CPToggleOnDisabledBorderHovered)
-			CPStyle.colorBegin("Button", self.theme.CPToggleOnDisabledHovered)
-			CPStyle.colorBegin("Text", self.theme.CPToggleOnDisabledTextHovered)
-			ImGui.Button(label_on.."##hovered", sizex/2-1, sizey)
-			ImGui.PopStyleColor(3)
+			color.btn_off_background = self.theme.CPToggleOffDisabledHovered
+			color.btn_off_border = self.theme.CPToggleOffDisabledBorderHovered
+			color.btn_off_text = self.theme.CPToggleOffDisabledTextHovered
+			color.btn_on_background = self.theme.CPToggleOnHovered
+			color.btn_on_border = self.theme.CPToggleOnBorderHovered
+			color.btn_on_text = self.theme.CPToggleOnTextHovered
 		end
-		ImGui.EndGroup()
+	else
+		if not hovered or active then
+			color.btn_off_background = self.theme.CPToggleOff
+			color.btn_off_border = self.theme.CPToggleOffBorder
+			color.btn_off_text = self.theme.CPToggleOffText
+			color.btn_on_background = self.theme.CPToggleOnDisabled
+			color.btn_on_border = self.theme.CPToggleOnDisabledBorder
+			color.btn_on_text = self.theme.CPToggleOnDisabledText
+		else
+			color.btn_off_background = self.theme.CPToggleOffHovered
+			color.btn_off_border = self.theme.CPToggleOffBorderHovered
+			color.btn_off_text = self.theme.CPToggleOffTextHovered
+			color.btn_on_background = self.theme.CPToggleOnDisabledHovered
+			color.btn_on_border = self.theme.CPToggleOnDisabledBorderHovered
+			color.btn_on_text = self.theme.CPToggleOnDisabledTextHovered
+		end
 	end
-	CPStyle.styleEnd(1)
-  if label ~= nil and label ~= "" and label:match("^##") == nil then
-  	CPStyle.colorBegin("Button", self.theme.Hidden)
-  	CPStyle.colorBegin("ButtonHovered", self.theme.Hidden)
-  	CPStyle.colorBegin("ButtonActive", self.theme.Hidden)
-  	CPStyle.styleBegin("FrameBorderSize", 0)
-  	CPStyle.styleBegin("ButtonTextAlign", 0, 0.5)
-  	ImGui.SameLine(sizex)
-  	ImGui.Button(label, 0, sizey)
-  	CPStyle.styleEnd(2)
-  	CPStyle.colorEnd(3)
-  end
-	ImGui.EndGroup()
-	return value, press
+
+	-- draw background
+	ImGui.ImDrawListAddRectFilled(drawList, btn_off_pos.p4.x, btn_off_pos.p1.y, btn_off_pos.p3.x, btn_off_pos.p3.y, ImGui.ColorConvertFloat4ToU32(color.btn_off_background))
+	ImGui.ImDrawListAddRectFilled(drawList, btn_off_pos.p1.x, btn_off_pos.p1.y, btn_off_pos.p4.x, btn_off_pos.p5.y, ImGui.ColorConvertFloat4ToU32(color.btn_off_background))
+	ImGui.ImDrawListAddTriangleFilled(drawList, btn_off_pos.p5.x-0.5, btn_off_pos.p5.y-0.5, btn_off_pos.p4.x+0.5, btn_off_pos.p5.y-0.5, btn_off_pos.p4.x+0.5, btn_off_pos.p4.y+0.5, ImGui.ColorConvertFloat4ToU32(color.btn_off_background))
+	ImGui.ImDrawListAddRectFilled(drawList, btn_on_pos.p1.x, btn_on_pos.p1.y, btn_on_pos.p4.x, btn_on_pos.p4.y, ImGui.ColorConvertFloat4ToU32(color.btn_on_background))
+	ImGui.ImDrawListAddRectFilled(drawList, btn_on_pos.p4.x, btn_on_pos.p1.y, btn_on_pos.p3.x, btn_on_pos.p3.y, ImGui.ColorConvertFloat4ToU32(color.btn_on_background))
+	ImGui.ImDrawListAddTriangleFilled(drawList, btn_on_pos.p4.x-0.5, btn_on_pos.p3.y-0.5, btn_on_pos.p2.x+0.5, btn_on_pos.p3.y-0.5, btn_on_pos.p4.x-0.5, btn_on_pos.p4.y+0.5, ImGui.ColorConvertFloat4ToU32(color.btn_on_background))
+	-- draw border
+	ImGui.ImDrawListAddLine(drawList, btn_off_pos.p1.x, btn_off_pos.p1.y, btn_off_pos.p2.x, btn_off_pos.p2.y, ImGui.ColorConvertFloat4ToU32(color.btn_off_border))
+	ImGui.ImDrawListAddLine(drawList, btn_off_pos.p2.x, btn_off_pos.p2.y, btn_off_pos.p3.x, btn_off_pos.p3.y, ImGui.ColorConvertFloat4ToU32(color.btn_off_border))
+	ImGui.ImDrawListAddLine(drawList, btn_off_pos.p3.x, btn_off_pos.p3.y, btn_off_pos.p4.x, btn_off_pos.p4.y, ImGui.ColorConvertFloat4ToU32(color.btn_off_border))
+	ImGui.ImDrawListAddLine(drawList, btn_off_pos.p4.x, btn_off_pos.p4.y, btn_off_pos.p5.x, btn_off_pos.p5.y, ImGui.ColorConvertFloat4ToU32(color.btn_off_border))
+	ImGui.ImDrawListAddLine(drawList, btn_off_pos.p5.x, btn_off_pos.p5.y, btn_off_pos.p1.x, btn_off_pos.p1.y, ImGui.ColorConvertFloat4ToU32(color.btn_off_border))
+	ImGui.ImDrawListAddLine(drawList, btn_on_pos.p1.x, btn_on_pos.p1.y, btn_on_pos.p2.x, btn_on_pos.p2.y, ImGui.ColorConvertFloat4ToU32(color.btn_on_border))
+	ImGui.ImDrawListAddLine(drawList, btn_on_pos.p2.x, btn_on_pos.p2.y, btn_on_pos.p3.x, btn_on_pos.p3.y, ImGui.ColorConvertFloat4ToU32(color.btn_on_border))
+	ImGui.ImDrawListAddLine(drawList, btn_on_pos.p3.x, btn_on_pos.p3.y, btn_on_pos.p4.x, btn_on_pos.p4.y, ImGui.ColorConvertFloat4ToU32(color.btn_on_border))
+	ImGui.ImDrawListAddLine(drawList, btn_on_pos.p4.x, btn_on_pos.p4.y, btn_on_pos.p5.x, btn_on_pos.p5.y, ImGui.ColorConvertFloat4ToU32(color.btn_on_border))
+	ImGui.ImDrawListAddLine(drawList, btn_on_pos.p5.x, btn_on_pos.p5.y, btn_on_pos.p1.x, btn_on_pos.p1.y, ImGui.ColorConvertFloat4ToU32(color.btn_on_border))
+	-- draw text
+	ImGui.ImDrawListAddText(drawList, label_off_x, label_y, ImGui.ColorConvertFloat4ToU32(color.btn_off_text), trimLabel(label_off))
+	ImGui.ImDrawListAddText(drawList, label_on_x, label_y, ImGui.ColorConvertFloat4ToU32(color.btn_on_text), trimLabel(label_on))
+
+	if pressed_off and value == false then
+		value = true
+	elseif pressed_off and value == true then
+		value = false
+	elseif pressed_on and value == true then
+		value = false
+	elseif pressed_on and value == false then
+		value = true
+	end
+	if pressed_off or pressed_on then pressed = true else pressed = false end
+	return value, pressed
 end
 
 function CPStyle:CPToolTip1Begin(sizex, sizey)
