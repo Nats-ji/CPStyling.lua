@@ -229,15 +229,14 @@ function CPStyle:CPButton(label, sizex, sizey)
 	CPStyle.colorEnd(4)
 
 	local color = {}
-	if active then
-		color.border = self.theme.CPButtonBorderHovered
-		color.background = self.theme.CPButtonActive
-	elseif hovered then
+	color.border = self.theme.CPButtonBorder
+	color.background = self.theme.CPButton
+	if hovered then
 		color.border = self.theme.CPButtonBorderHovered
 		color.background = self.theme.CPButtonHovered
-	else
-		color.border = self.theme.CPButtonBorder
-		color.background = self.theme.CPButton
+	end
+	if active then
+		color.background = self.theme.CPButtonActive
 	end
 
 	local p_minX = winX + cursorX - scrollX
