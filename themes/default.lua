@@ -124,5 +124,10 @@ return {
   CPToolTip2Border                            =           { 0.18, 0.42, 0.46, 1.00 },
   CPToolTip2Separator                         =           { 0.24, 0.55, 0.58, 1.00 },
   CPToolTip2SideBg                            =           { 0.12, 0.24, 0.27, 1.00 },
-  Hidden                                      =           { 0.00, 0.00, 0.00, 0.00 }
+  Hidden                                      =           { 0.00, 0.00, 0.00, 0.00 },
+  CPCollapsingHeaderBg                        =           { 0.08, 0.05, 0.09, 1.00 },
+  CPCollapsingHeaderBorder                    =           { 0.28, 0.11, 0.11, 1.00 },
+  CPCollapsingHeaderText                      =           { 1.00, 0.37, 0.35, 1.00 },
+  CPCollapsingHeaderBgHovered                 =           { 0.13, 0.05, 0.09, 1.00 },
+  CPCollapsingHeaderBorderHovered             =           { 0.97, 0.31, 0.28, 1.00 },
 }

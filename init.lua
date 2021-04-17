@@ -400,6 +400,96 @@ function CPStyle:CPToggle(label, label_off, label_on, value, sizex, sizey)
 	return value, pressed
 end
 
+CPStyle.CPCollapsingHeader_state = {}
+
+function CPStyle:SetCPCollapsingHeaderState(label, state)
+	if type(state) == "boolean" then
+		self.CPCollapsingHeader_state[label] = state
+	end
+end
+
+function CPStyle:CPCollapsingHeader(label, sizex, sizey)
+	local drawList = ImGui.GetWindowDrawList()
+	local winX, winY = ImGui.GetWindowPos()
+	local cursorX, cursorY = ImGui.GetCursorPos()
+	local scrollX = ImGui.GetScrollX()
+  local scrollY = ImGui.GetScrollY()
+
+	if sizex == nil or sizey == nil then
+		sizex = ImGui.GetContentRegionAvail() - 4
+		sizey = 0
+	elseif sizex == 0 then
+		sizex = ImGui.GetContentRegionAvail() - 4
+	end
+
+	-- insert button
+	local pressed = self:InvisibleButton(label, sizex, sizey)
+	local active = ImGui.IsItemActive()
+	local hovered = ImGui.IsItemHovered()
+	local header_width, header_height = ImGui.GetItemRectSize()
+	-- color
+	local color = {}
+	color.text = self.theme.CPCollapsingHeaderText
+	if not hovered or active then
+		color.background = self.theme.CPCollapsingHeaderBg
+		color.border = self.theme.CPCollapsingHeaderBorder
+	else
+		color.background = self.theme.CPCollapsingHeaderBgHovered
+		color.border = self.theme.CPCollapsingHeaderBorderHovered
+	end
+
+	-- calc postion
+	local fontsize = ImGui.GetFontSize()
+	local leftrect_posX = winX + cursorX - scrollX
+	local leftrect_width = rounding(fontsize * 0.4)
+	local mainrect_posX = leftrect_posX + leftrect_width + 2
+	local mainrect_width = header_width - leftrect_width - 2
+	local corner_size = rounding(fontsize * 0.5)
+	local header_posY = winY + cursorY - scrollY
+
+	local label_width, label_height = ImGui.CalcTextSize(label, true)
+	local label_x = 10 * fontsize/13 + mainrect_posX
+	local label_y = (header_height - label_height) * 0.5 + header_posY
+
+	local leftrect_pos = {
+		p1 = { x = leftrect_posX, y = header_posY },
+		p2 = { x = leftrect_posX + leftrect_width, y = header_posY },
+		p3 = { x = leftrect_posX + leftrect_width, y = header_posY + header_height },
+		p4 = { x = leftrect_posX, y = header_posY + header_height },
+	}
+	local mainrect_pos = {
+		p1 = { x = mainrect_posX, y = header_posY },
+		p2 = { x = mainrect_posX + mainrect_width, y = header_posY },
+		p3 = { x = mainrect_posX + mainrect_width, y = header_posY + header_height - corner_size },
+		p4 = { x = mainrect_posX + mainrect_width - corner_size, y = header_posY + header_height },
+		p5 = { x = mainrect_posX, y = header_posY + header_height },
+	}
+	-- draw background
+	ImGui.ImDrawListAddRectFilled(drawList, leftrect_pos.p1.x, leftrect_pos.p1.y, leftrect_pos.p3.x, leftrect_pos.p3.y, ImGui.ColorConvertFloat4ToU32(color.background))
+	ImGui.ImDrawListAddRectFilled(drawList, mainrect_pos.p1.x, mainrect_pos.p1.y, mainrect_pos.p4.x, mainrect_pos.p4.y, ImGui.ColorConvertFloat4ToU32(color.background))
+	ImGui.ImDrawListAddRectFilled(drawList, mainrect_pos.p4.x, mainrect_pos.p1.y, mainrect_pos.p3.x, mainrect_pos.p3.y, ImGui.ColorConvertFloat4ToU32(color.background))
+	ImGui.ImDrawListAddTriangleFilled(drawList, leftrect_pos.p4.x, leftrect_pos.p3.y, leftrect_pos.p3.x, leftrect_pos.p3.y, leftrect_pos.p4.x, leftrect_pos.p4.y, ImGui.ColorConvertFloat4ToU32(color.background))
+
+	-- draw border
+	ImGui.ImDrawListAddLine(drawList, leftrect_pos.p1.x, leftrect_pos.p1.y, leftrect_pos.p2.x, leftrect_pos.p2.y, ImGui.ColorConvertFloat4ToU32(color.border))
+	ImGui.ImDrawListAddLine(drawList, leftrect_pos.p2.x, leftrect_pos.p2.y, leftrect_pos.p3.x, leftrect_pos.p3.y, ImGui.ColorConvertFloat4ToU32(color.border))
+	ImGui.ImDrawListAddLine(drawList, leftrect_pos.p3.x, leftrect_pos.p3.y, leftrect_pos.p4.x, leftrect_pos.p4.y, ImGui.ColorConvertFloat4ToU32(color.border))
+	ImGui.ImDrawListAddLine(drawList, leftrect_pos.p4.x, leftrect_pos.p4.y, leftrect_pos.p1.x, leftrect_pos.p1.y, ImGui.ColorConvertFloat4ToU32(color.border))
+	ImGui.ImDrawListAddLine(drawList, mainrect_pos.p1.x, mainrect_pos.p1.y, mainrect_pos.p2.x, mainrect_pos.p2.y, ImGui.ColorConvertFloat4ToU32(color.border))
+	ImGui.ImDrawListAddLine(drawList, mainrect_pos.p2.x, mainrect_pos.p2.y, mainrect_pos.p3.x, mainrect_pos.p3.y, ImGui.ColorConvertFloat4ToU32(color.border))
+	ImGui.ImDrawListAddLine(drawList, mainrect_pos.p3.x, mainrect_pos.p3.y, mainrect_pos.p4.x, mainrect_pos.p4.y, ImGui.ColorConvertFloat4ToU32(color.border))
+	ImGui.ImDrawListAddLine(drawList, mainrect_pos.p4.x, mainrect_pos.p4.y, mainrect_pos.p5.x, mainrect_pos.p5.y, ImGui.ColorConvertFloat4ToU32(color.border))
+	ImGui.ImDrawListAddLine(drawList, mainrect_pos.p5.x, mainrect_pos.p5.y, mainrect_pos.p1.x, mainrect_pos.p1.y, ImGui.ColorConvertFloat4ToU32(color.border))
+
+	--draw text
+	ImGui.ImDrawListAddText(drawList, label_x, label_y, ImGui.ColorConvertFloat4ToU32(color.text), trimLabel(label))
+
+	if pressed then
+		self.CPCollapsingHeader_state[label] = not self.CPCollapsingHeader_state[label]
+	end
+	return self.CPCollapsingHeader_state[label]
+end
+
 function CPStyle:CPToolTip1Begin(sizex, sizey)
 	CPStyle.styleBegin("WindowRounding", 0)
 	CPStyle.styleBegin("PopupBorderSize", 0)
